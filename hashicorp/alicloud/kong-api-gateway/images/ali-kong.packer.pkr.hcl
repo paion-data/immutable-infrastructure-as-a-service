@@ -12,8 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.idea/
-.DS_Store
-*.auto.tfvars
-*.auto.pkrvars.hcl
-.terraform/
+packer {
+  required_plugins {
+    alicloud = {
+      source  = "github.com/hashicorp/alicloud"
+      version = "~> 1"
+    }
+
+    hashicorp-aws = {
+      version = ">= 0.0.4"
+      source  = "github.com/paion-data/paion-data"
+    }
+  }
+}

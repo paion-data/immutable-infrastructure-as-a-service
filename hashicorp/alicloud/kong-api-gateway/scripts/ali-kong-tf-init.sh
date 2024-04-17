@@ -1,3 +1,7 @@
+#!/bin/bash
+set -x
+set -e
+
 # Copyright Jiaqi Liu
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +16,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.idea/
-.DS_Store
-*.auto.tfvars
-*.auto.pkrvars.hcl
-.terraform/
+cd /root/docker-kong/compose/
+sudo KONG_DATABASE=postgres docker compose --profile database up
