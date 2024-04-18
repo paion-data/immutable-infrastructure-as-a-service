@@ -12,16 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-packer {
-  required_plugins {
-    docker = {
-      version = ">= 0.0.7"
-      source = "github.com/hashicorp/docker"
-    }
+variable "docker_image" {
+  type    = string
+  default = "paiondata/hashicorp-ali-kong-api-gateway-test:latest"
+}
 
-    hashicorp-aws = {
-      version = ">= 0.0.4"
-      source  = "github.com/paion-data/paion-data"
-    }
-  }
+source "docker" "ubuntu" {
+  image  = var.docker_image
+  commit = true
 }

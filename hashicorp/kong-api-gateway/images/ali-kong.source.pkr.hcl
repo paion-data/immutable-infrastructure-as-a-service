@@ -12,18 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "access_key" {
-  type    = string
-  default = "${env("ALICLOUD_ACCESS_KEY")}"
-}
-
-variable "secret_key" {
-  type    = string
-  default = "${env("ALICLOUD_SECRET_KEY")}"
-}
-
 variable "ali_image_name" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "instance_type" {
@@ -31,13 +22,21 @@ variable "instance_type" {
   description = "ECS instance types defined in https://www.alibabacloud.com/help/doc-detail/25378.htm"
 }
 
+variable "region" {
+  type        = string
+  description = "The region to launch the instance"
+}
+
 source "alicloud-ecs" "kong-gateway" {
   # Authentication through environmental variables
-  associate_public_ip_address = true
-  image_name                  = var.ali_image_name
-  instance_type               = var.instance_type
-  internet_charge_type        = "PayByTraffic"
-  skip_image_validation       = true
-  source_image                = "ubuntu_22_04_x64_20G_alibase_20240220.vhd"
-  ssh_username                = "root"
+  associate_public_ip_address  = true
+  image_force_delete           = true
+  image_force_delete_snapshots = true
+  region                       = var.region
+  image_name                   = var.ali_image_name
+  instance_type                = var.instance_type
+  internet_charge_type         = "PayByTraffic"
+  skip_image_validation        = true
+  source_image                 = "ubuntu_22_04_x64_20G_alibase_20240220.vhd"
+  ssh_username                 = "root"
 }
