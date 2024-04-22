@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "image_id" {
+variable "ali_image_name" {
   type        = string
-  description = "ECS image ID"
+  description = "The name of the image"
 }
 
 variable "vswitch_id" {
@@ -40,6 +40,11 @@ data "template_file" "kong-init" {
   template = file("../scripts/ali-kong-tf-init.sh")
 }
 
+data "alicloud_images" "default" {
+  image_name = var.ali_image_name
+  owners     = "self"
+}
+
 resource "alicloud_instance" "instance" {
   # charging rules see in https://help.aliyun.com/zh/ecs/product-overview/overview-51
   internet_charge_type = "PayByBandwidth"
@@ -50,7 +55,7 @@ resource "alicloud_instance" "instance" {
   # instance and image
   # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
   instance_type = var.instance_type
-  image_id      = var.image_id
+  image_id      = "${data.alicloud_images.default.images.0.id}"
   instance_name = var.instance_name
 
   # disk
@@ -59,6 +64,7 @@ resource "alicloud_instance" "instance" {
   # Bandwidth and safety group
   internet_max_bandwidth_out = 1
   security_groups            = var.security_groups
+  
 
   # Management settings
   tags = {
