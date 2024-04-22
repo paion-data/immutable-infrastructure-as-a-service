@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-shared:
-  image: node:18
 jobs:
   validate-kong-api-gateway-template:
     requires: [~pr, ~commit]
