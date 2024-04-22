@@ -17,33 +17,33 @@ name: kong-api-gateway-release-definition-template
 version: "1.0.0"
 description: |
   Screwdriver CD template for deploying Kong API Gateway (https://github.com/paion-data/docker-kong) to AliCloud through HashiCorp.
-maintainer: jack20220723@gmail.com
+maintainer: jingjinghu@paion-data.dev
 config:
   image: buildpack-deps:22.04-scm
   parameters:
     region:
-      value: "cn-shenzhen"
-      description: "The AWS region where Kong API Gateway AMI will be published to. The published image will be private"
+      value: ["cn-shenzhen", "cn-beijing", "cn-hangzhou", "cn-shanghai"]
+      description: "The AliCloud region where the instance will be published to. The published image will be private"
     ali-image-name:
       value: "ecs-kong"
-      description: "The published AMI name; it can be arbitrary"
+      description: "The published alicoud image name; it can be arbitrary"
     instance-type:
-      value: "ecs.e-c1m1.large"
-      description: "The EC2 instance type to use when building an AMI as well as launching the instance"
+      value: ["ecs.e-c1m1.large"]
+      description: "The ECS instance type to use when building an image as well as launching the instance"
     instance-name:
       value: "kong-gateway-instance"
-      description: "The deployed EC2 name as appeared in the instance list of AWS console; it can be arbitrary"
-    security-groups:
-      value: '["sg-wz907b4kxw86kejdynhl"]'
-      description: "The list of AWS Security Group names (yes, not ID, but name...) bound to the Kong EC2 instance."
-    vswitch_id:
-      value: "vsw-wz9qs7bztf98sstrb1ymm"
-      description: "The VSwitch ID to use when launching the instance"
+      description: "The deployed ECS name as appeared in the instance list of AliCloud console; it can be arbitrary"
+    security_groups_name:
+      value: ["dental-llm-api-gateway", "dental-llm-web-app", "screwdriver"]
+      description: "The list of Security Group names"
+    vswitch_name:
+      value: "dental-llm-vswitch"
+      description: "The VSwitch name to use when launching the instance"
     ssl_cert_source:
-      value: "server.crt"
+      value: "ssl.crt"
       description: "The source of the SSL certificate file"
     ssl_cert_key_source:
-      value: "server.key"
+      value: "ssl.key"
       description: "The source of the SSL certificate key file"
     kong-api-gateway-domain:
       value: "api.paion-data.com"

@@ -12,7 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+shared:
+  image: node:18
 jobs:
+  validate-react-app-template:
+    requires: [~pr, ~commit]
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/react-app-sd-template.yaml
+  publish-react-app-template:
+    requires: validate-react-app-template
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/react-app-sd-template.yaml
+
   validate-kong-api-gateway-template:
     requires: [~pr, ~commit]
     steps:
@@ -27,3 +44,117 @@ jobs:
       - publish: template-publish --tag latest
     environment:
       SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/kong-api-gateway-sd-template.yaml
+
+  validate-jersey-webservice-template-basic-sd-template:
+    requires: [~pr, ~commit]
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-template-basic-sd-template.yaml
+  publish-jersey-webservice-template-basic-sd-template:
+    requires: validate-jersey-webservice-template-basic-sd-template
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-template-basic-sd-template.yaml
+
+  validate-jersey-webservice-template-jpa-sd-template:
+    requires: [~pr, ~commit]
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-template-jpa-sd-template.yaml
+  publish-jersey-webservice-template-jpa-sd-template:
+    requires: validate-jersey-webservice-template-jpa-sd-template
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-template-jpa-sd-template.yaml
+
+  validate-elk-template:
+    requires: [~pr, ~commit]
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/elk-sd-template.yaml
+  publish-elk-template:
+    requires: validate-elk-template
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/elk-sd-template.yaml
+
+  validate-mlflow-docker-sd-template:
+    requires: [~pr, ~commit]
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/mlflow-docker-sd-template.yaml
+  publish-mlflow-docker-sd-template:
+    requires: validate-mlflow-docker-sd-template
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/mlflow-docker-sd-template.yaml
+
+  validate-install-hashicorp-packer-ubuntu:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-hashicorp-packer-ubuntu/sd-command.yaml
+  publish-install-hashicorp-packer-ubuntu:
+    requires: [validate-install-hashicorp-packer-ubuntu]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-hashicorp-packer-ubuntu/sd-command.yaml -t latest
+
+  validate-install-hashicorp-terraform-ubuntu:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-hashicorp-terraform-ubuntu/sd-command.yaml
+  publish-install-hashicorp-terraform-ubuntu:
+    requires: [validate-install-hashicorp-terraform-ubuntu]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-hashicorp-terraform-ubuntu/sd-command.yaml -t latest
+
+  validate-install-jdk-ubuntu:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-jdk-ubuntu/sd-command.yaml
+  publish-install-jdk-ubuntu:
+    requires: [validate-install-jdk-ubuntu]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-jdk-ubuntu/sd-command.yaml -t latest
+
+  validate-install-maven-ubuntu:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-maven-ubuntu/sd-command.yaml
+  publish-install-maven-ubuntu:
+    requires: [validate-install-maven-ubuntu]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-maven-ubuntu/sd-command.yaml -t latest
+
+  validate-install-node:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-node/sd-command.yaml
+  publish-install-node:
+    requires: [validate-install-node]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-node/sd-command.yaml -t latest
+
+  validate-install-python:
+    requires: [~pr, ~commit]
+    steps:
+      - validate: sd-cmd validate -f adaptors/screwdriver-cd/commands/install-python/sd-command.yaml
+  publish-install-python:
+    requires: [validate-install-python]
+    steps:
+      - publish: sd-cmd publish -f adaptors/screwdriver-cd/commands/install-python/sd-command.yaml -t latest
