@@ -13,6 +13,6 @@
 # limitations under the License.
 
 source "docker" "ubuntu" {
-  image  = "paiondata/iiaas-aws-elk-test:latest"
+  image  = "paiondata/iiaas-elk-test:latest"
   commit = true
 }
