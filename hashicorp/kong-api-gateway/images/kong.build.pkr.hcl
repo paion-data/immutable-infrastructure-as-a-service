@@ -27,7 +27,7 @@ variable "image_home_dir" {
   sensitive = true
 
   validation {
-    condition     = contains(["/root", "/home/ubuntu", "/"], var.instance_type)
+    condition     = contains(["/root", "/home/ubuntu", "/"], var.image_home_dir)
     error_message = "Allowed values for image_home_dir are '/root' for Alicloud, '/home/ubuntu' for AWS, or '/' in general."
   }
 }

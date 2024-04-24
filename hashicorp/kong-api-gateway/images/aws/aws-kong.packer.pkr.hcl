@@ -19,9 +19,9 @@ packer {
       source  = "github.com/hashicorp/amazon"
     }
 
-    hashicorp-aws = {
-      version = ">= 0.0.13"
-      source = "github.com/QubitPi/hashicorp-aws"
+    iiaas = {
+      version = ">= 0.0.4"
+      source  = "github.com/paion-data/paion-data"
     }
   }
 }
