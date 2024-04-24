@@ -98,6 +98,7 @@ reidrected to upstream services (such as database webservice)
       [various ports of Kong gateway][Kong gateway - various ports]
 
   </TabItem>
+  <TabItem value="aws" label="AWS">
 
     Create a [HashiCorp Packer variable values file] named **aws-kong.auto.pkrvars.hcl** under
     **[immutable-infrastructure-as-a-service/hashicorp/kong-api-gateway/images]** directory with the following contents:
@@ -124,6 +125,7 @@ reidrected to upstream services (such as database webservice)
     - `kong_api_gateway_domain` is the SSL-enabled domain that will serve the
       [various ports of Kong gateway][Kong gateway - various ports]
 
+  </TabItem>
 </Tabs>
 
 ### Defining Terraform Variables
