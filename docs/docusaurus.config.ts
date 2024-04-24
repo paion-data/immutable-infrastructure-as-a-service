@@ -119,9 +119,9 @@ const config: Config = {
       additionalLanguages: ["java", "bash", "json"]
     },
     algolia: {
-      appId: '11324Y7IH1',
-      apiKey: '389a0e5d9d57695cf51d6348fdc9b00b',
-      indexName: 'immutable-infrastructure-as-a-service'
+      appId: '2BZ1ZIOLIM',
+      apiKey: 'a4d8838e07fb2276e0e837d05d92d5f1',
+      indexName: 'crawler_immutable_infrastructure'
     },
   } satisfies Preset.ThemeConfig,
 };

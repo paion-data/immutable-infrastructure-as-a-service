@@ -160,12 +160,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        ubuntu-version: [22.04]
         script: ${{ fromJson(needs.list-screwdriver-command-scripts.outputs.paths) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: ${{ matrix.test-suite.desc }}
-        run: docker run --rm -v $(pwd)/${{ matrix.script }}:/test/script.sh ubuntu /test/script.sh
+        run: docker run --rm -v $(pwd)/${{ matrix.script }}:/test/script.sh ubuntu:${{ matrix.ubuntu-version }} /test/script.sh
 
   list-screwdriver-commands:
     name: Listing Screwdriver Commands to Validate
