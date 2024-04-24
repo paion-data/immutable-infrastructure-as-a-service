@@ -37,13 +37,13 @@ config:
       value: ["alicloud-ecs.kong-gateway"]
       description: "The source of the image to build"
     image-home-dir:
-      value: ["/root", "/home/ubuntu", "/"]
+      value: ["/root", "/"]
       description: "Allowed values for image_home_dir are '/root' for Alicloud, '/home/ubuntu' for AWS, or '/' in general"
     vswitch-name:
       value: "Your VSwitch Name"
       description: "The VSwitch name to use when launching the instance"
     security-groups-name:
-      value: ["Your Security Group Name"]
+      value: "Your Security Group Name"
       description: "The list of Security Group names"
     internet-charge-type:
       value: ["PayByBandwidth", "PayByTraffic"]
@@ -55,7 +55,7 @@ config:
       value: "1"
       description: "The maximum bandwidth out for the instance"
     kong-api-gateway-domain:
-      value: "api.domain.com"
+      value: "Your Api gateway domain"
       description: |
         The SSL-enabled domain that will serve various Kong API Gateway endpoints, such as its API and Kong Manager UI
   steps:
