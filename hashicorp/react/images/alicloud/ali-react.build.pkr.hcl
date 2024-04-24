@@ -1,0 +1,33 @@
+# Copyright Paion Data
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+build {
+  name = "install-react"
+  sources = [
+    "source.${var.build_source}"
+  ]
+
+  provisioner "file" {
+    source = "${var.react_dist_path}"
+    destination = "${var.image_home_dir}/dist"
+  }
+
+  provisioner "iiaas-react-app-provisioner" {
+    homeDir              = "${var.image_home_dir}"
+    sslCertSource        = "${var.ssl_cert_source}"
+    sslCertKeySource     = "${var.ssl_cert_key_source}"
+    kongApiGatewayDomain = "${var.kong_api_gateway_domain}"
+  }
+}
+

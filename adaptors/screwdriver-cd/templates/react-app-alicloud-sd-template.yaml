@@ -1,4 +1,4 @@
-# Copyright 2024 Paion Data. All rights reserved.
+# Copyright 2024 Paion Data
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,47 +19,18 @@ description: Screwdriver CD template for deploying React APP to AliCloud through
 maintainer: jingjinghu@paion-data.dev
 config:
   image: buildpack-deps:22.04-scm
-  parameters:
-    region:
-      value: ["cn-shenzhen", "cn-beijing", "cn-hangzhou", "cn-shanghai"]
-      description: "The AliCloud region where the instance will be published to. The published image will be private"
-    ali-image-name:
-      value: "ecs-kong"
-      description: "The published alicoud image name; it can be arbitrary"
-    instance-type:
-      value: ["ecs.e-c1m1.large"]
-      description: "The ECS instance type to use when building an image as well as launching the instance"
-    instance-name:
-      value: "kong-gateway-instance"
-      description: "The deployed ECS name as appeared in the instance list of AliCloud console; it can be arbitrary"
-    security_groups_name:
-      value: ["dental-llm-api-gateway", "dental-llm-web-app", "screwdriver"]
-      description: "The list of Security Group names"
-    vswitch_name:
-      value: "dental-llm-vswitch"
-      description: "The VSwitch name to use when launching the instance"
-    ssl_cert_source:
-      value: "server.crt"
-      description: "The source of the SSL certificate file"
-    ssl_cert_key_source:
-      value: "server.key"
-      description: "The source of the SSL certificate key file"
-    kong-api-gateway-domain:
-      value: "api.paion-data.com"
-      description: |
-        The SSL-enabled domain that will serve various Kong API Gateway endpoints, such as its API and Kong Manager UI
   steps:
     - install-node: sd-cmd exec paion-data/install-node@latest
     - install-packer: sd-cmd exec paion-data/install-hashicorp-packer-ubuntu@latest
     - install-terraform: sd-cmd exec paion-data/install-hashicorp-terraform-ubuntu@latest
 
     - checkout-hashicorp-deployment-tool: git clone --depth 1 https://github.com/paion-data/immutable-infrastructure-as-a-service.git ../immutable-infrastructure-as-a-service
-    - load-packer-variable-file: echo "$AWS_REACT_PKRVARS_HCL" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/ali-react.auto.pkrvars.hcl
-    - load-ssl-certificate: echo "$SSL_CERTIFICATE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/ssl.crt
-    - load-ssl-certificate-key: echo "$SSL_CERTIFICATE_KEY" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/ssl.key
+    - load-packer-variable-file: echo "$AWS_REACT_PKRVARS_HCL" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws-react.auto.pkrvars.hcl
+    - load-ssl-certificate: echo "$SSL_CERTIFICATE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/ssl.crt
+    - load-ssl-certificate-key: echo "$SSL_CERTIFICATE_KEY" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/ssl.key
     - load-nginx-config-file-for-ssl: echo "$NGINX_CONFIG_FILE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/nginx.conf
 
-    - load-terraform-variable-file: echo "$AWS_REACT_TFVARS" > ../immutable-infrastructure-as-a-service/hashicorp/react/instances/alicloud/ali-react.auto.tfvars
+    - load-terraform-variable-file: echo "$AWS_REACT_TFVARS" > ../immutable-infrastructure-as-a-service/hashicorp/react/instances/aws-react.auto.tfvars
 
     - load-dot-env-file: echo "$DOT_ENV_FILE" > .env
     - generate-dist: yarn && yarn build
