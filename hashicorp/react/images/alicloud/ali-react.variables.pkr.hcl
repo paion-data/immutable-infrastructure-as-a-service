@@ -34,25 +34,17 @@ variable "instance_type" {
   description = "ECS instance types defined in https://www.alibabacloud.com/help/doc-detail/25378.htm"
 }
 
-variable "react_dist_path" {
-  type      = string
-  // sensitive = true
-}
-
 variable "ssl_cert_source_path" {
   type      = string
   sensitive = true
-  default   = ""
 }
 
 variable "ssl_cert_key_path" {
   type      = string
   sensitive = true
-  default   = ""
 }
 
 variable "react_app_domain" {
   type      = string
   sensitive = true
-  default   = ""
 }

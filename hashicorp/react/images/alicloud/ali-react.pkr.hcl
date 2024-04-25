@@ -20,13 +20,13 @@ packer {
     }
 
     iiaas = {
-      version = ">= 0.0.4"
       source  = "github.com/paion-data/paion-data"
+      version = "latest"
     }
   }
 }
 
-source "alicloud-ecs" "react" {
+source "alicloud-ecs" "react-app" {
   # Authentication through environmental variables
   associate_public_ip_address  = true
   image_force_delete           = true

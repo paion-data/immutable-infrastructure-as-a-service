@@ -69,7 +69,7 @@ data "alicloud_security_groups" "default" {
   name_regex  = join("|", var.security_groups_name_list)
 }
 
-data "alicloud_vswitches" "default" {
+data "alicloud_vswitches" "react-vswitch" {
   name_regex = "${var.vswitch_name}"
 }
 

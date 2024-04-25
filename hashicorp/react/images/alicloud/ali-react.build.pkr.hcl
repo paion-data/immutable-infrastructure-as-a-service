@@ -19,7 +19,7 @@ build {
   ]
 
   provisioner "file" {
-    source = "${var.react_dist_path}"
+    source = "../dist"
     destination = "${var.image_home_dir}/dist"
   }
 
@@ -27,7 +27,6 @@ build {
     homeDir              = "${var.image_home_dir}"
     sslCertSource        = "${var.ssl_cert_source}"
     sslCertKeySource     = "${var.ssl_cert_key_source}"
-    kongApiGatewayDomain = "${var.kong_api_gateway_domain}"
+    ReactAppDomain       = "${var.react_app_domain}"
   }
 }
-

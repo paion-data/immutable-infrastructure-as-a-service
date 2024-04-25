@@ -2,7 +2,7 @@
 set -x
 set -e
 
-# Copyright Paion Data
+# Copyright 2024 Paion Data. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,5 +16,5 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cd /root
+cd $HOME_DIR
 serve -s dist -l 3000
