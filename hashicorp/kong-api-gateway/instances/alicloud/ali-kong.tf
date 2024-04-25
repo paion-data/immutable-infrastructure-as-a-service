@@ -17,11 +17,6 @@ variable "ali_image_name" {
   description = "The name of the image"
 }
 
-variable "vswitch_name" {
-  type        = string
-  description = "The VSwitch name to use when launching the instance"
-}
-
 # TODO: instance_type is dependent on the region
 variable "instance_type" {
   type        = string
@@ -32,7 +27,7 @@ variable "instance_name" {
   type = string
 }
 
-variable "security_groups_name" {
+variable "security_group_names" {
   type        = list(string)
   description = "ECS security group name"
 }
@@ -65,12 +60,8 @@ variable "internet_max_bandwidth_out" {
   default = 1
 }
 
-data "alicloud_security_groups" "default" {
-  name_regex  = "${var.security_groups_name}"
-}
-
-data "alicloud_vswitches" "default" {
-  name_regex = "${var.vswitch_name}"
+data "alicloud_security_groups" "kong-security-groups" {
+  name_regex  = join("|", var.security_group_names)
 }
 
 data "template_file" "kong-init" {
@@ -80,9 +71,6 @@ data "template_file" "kong-init" {
 resource "alicloud_instance" "instance" {
   # charging rules see in https://help.aliyun.com/zh/ecs/product-overview/overview-51
   internet_charge_type = "${var.internet_charge_type}"
-
-  # network
-  vswitch_id = "${data.alicloud_vswitches.default.vswitches.0.id}"
 
   # instance and image
   # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
@@ -95,7 +83,7 @@ resource "alicloud_instance" "instance" {
 
   # Bandwidth and safety group
   internet_max_bandwidth_out = "${var.internet_max_bandwidth_out}"
-  security_groups            = "${data.alicloud_security_groups.groups.0.id}"
+  security_groups            = "${data.alicloud_security_groups.kong-security-groups.groups.ids}"
 
   # Management settings
   tags = {
