@@ -21,7 +21,7 @@ packer {
 
     iiaas = {
       source  = "github.com/paion-data/paion-data"
-      version = "latest"
+      version = ">= 0.0.4"
     }
   }
 }

@@ -15,7 +15,7 @@
 variable "build_source" {
   type      = string
   sensitive = false
-  default   = "alicloud-ecs.react"
+  default   = "alicloud-ecs.react-app"
 }
 
 variable "ali_image_name" {
@@ -34,12 +34,12 @@ variable "instance_type" {
   description = "ECS instance types defined in https://www.alibabacloud.com/help/doc-detail/25378.htm"
 }
 
-variable "ssl_cert_source_path" {
+variable "ssl_cert_source" {
   type      = string
   sensitive = true
 }
 
-variable "ssl_cert_key_path" {
+variable "ssl_cert_key_source" {
   type      = string
   sensitive = true
 }
