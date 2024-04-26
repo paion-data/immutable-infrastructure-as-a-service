@@ -71,7 +71,7 @@ provider "aws" {
 }
 
 data "template_file" "aws-react-init" {
-  template = "${file("../scripts/aws-react-tf-init.sh")}"
+  template = "${file("../scripts/react-tf-init.sh")}"
 }
 
 data "aws_ami" "latest-aws-react" {

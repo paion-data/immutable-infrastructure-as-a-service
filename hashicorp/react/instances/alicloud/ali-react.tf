@@ -17,11 +17,6 @@ variable "ali_image_name" {
   description = "The name of the image"
 }
 
-variable "vswitch_name" {
-  type        = string
-  description = "The VSwitch name to use when launching the instance"
-}
-
 # TODO: instance_type is dependent on the region
 variable "instance_type" {
   type        = string
@@ -32,9 +27,9 @@ variable "instance_name" {
   type = string
 }
 
-variable "security_groups_name_list" {
+variable "security_group_names" {
   type        = list(string)
-  description = "ECS security group name"
+  description = "ECS security group names"
 }
 
 variable "internet_charge_type" {
@@ -51,7 +46,6 @@ variable "internet_charge_type" {
 variable "system_disk_category" {
   type = string
   description = "System disk category"
-  default = "cloud_essd_entry"
 
   validation {
     condition = contains(["ephemeral_ssd", "cloud_efficiency", "cloud_ssd", "cloud_essd", "cloud_essd_entry", "cloud", "cloud_auto"], var.system_disk_category)
@@ -65,29 +59,30 @@ variable "internet_max_bandwidth_out" {
   default = 1
 }
 
-data "alicloud_security_groups" "default" {
-  name_regex  = join("|", var.security_groups_name_list)
+data "alicloud_security_groups" "react-groups" {
+  name_regex  = join("|", var.security_group_names)
 }
 
-data "alicloud_vswitches" "react-vswitch" {
-  name_regex = "${var.vswitch_name}"
+data "template_file" "react-init" {
+  template = file("../scripts/react-tf-init.sh")
 }
 
-data "template_file" "kong-init" {
-  template = file("../scripts/ali-kong-tf-init.sh")
+data "alicloud_images" "react-images" {
+  image_name = var.ali_image_name
+  owners     = "self"
 }
 
-resource "alicloud_instance" "instance" {
+resource "alicloud_instance" "react-instance" {
   # charging rules see in https://help.aliyun.com/zh/ecs/product-overview/overview-51
   internet_charge_type = "${var.internet_charge_type}"
 
   # network
-  vswitch_id = "${data.alicloud_vswitches.default.vswitches.0.id}"
+  # vswitch_id = "${data.alicloud_vswitches.default.vswitches.0.id}"
 
   # instance and image
   # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
   instance_type = "${var.instance_type}"
-  image_id      = "${data.alicloud_images.default.images.0.id}"
+  image_id      = "${data.alicloud_images.react-images.images.0.id}"
   instance_name = "${var.instance_name}"
 
   # disk
@@ -95,13 +90,13 @@ resource "alicloud_instance" "instance" {
 
   # Bandwidth and safety group
   internet_max_bandwidth_out = "${var.internet_max_bandwidth_out}"
-  security_groups            = "${data.alicloud_security_groups.ids}"
+  security_groups            = "${data.alicloud_security_groups.react-groups.ids}"
 
   # Management settings
   tags = {
     Name = "${var.instance_name}"
   }
-  user_data = data.template_file.kong-init.rendered
+  user_data = data.template_file.react-init.rendered
 }
 
 terraform {

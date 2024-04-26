@@ -60,7 +60,7 @@ variable "internet_max_bandwidth_out" {
   default = 1
 }
 
-data "alicloud_security_groups" "kong-security-groups" {
+data "alicloud_security_groups" "kong-groups" {
   name_regex  = join("|", var.security_group_names)
 }
 
@@ -68,14 +68,19 @@ data "template_file" "kong-init" {
   template = file("../scripts/ali-kong-tf-init.sh")
 }
 
-resource "alicloud_instance" "instance" {
+data "alicloud_images" "kong-images" {
+  image_name = var.ali_image_name
+  owners     = "self"
+}
+
+resource "alicloud_instance" "kong-instance" {
   # charging rules see in https://help.aliyun.com/zh/ecs/product-overview/overview-51
   internet_charge_type = "${var.internet_charge_type}"
 
   # instance and image
   # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
   instance_type = "${var.instance_type}"
-  image_id      = "${data.alicloud_images.default.images.0.id}"
+  image_id      = "${data.alicloud_images.kong-images.images.0.id}"
   instance_name = "${var.instance_name}"
 
   # disk
@@ -83,7 +88,7 @@ resource "alicloud_instance" "instance" {
 
   # Bandwidth and safety group
   internet_max_bandwidth_out = "${var.internet_max_bandwidth_out}"
-  security_groups            = "${data.alicloud_security_groups.kong-security-groups.groups.ids}"
+  security_groups            = "${data.alicloud_security_groups.kong-groups.ids}"
 
   # Management settings
   tags = {

@@ -25,18 +25,18 @@ config:
     - install-terraform: sd-cmd exec paion-data/install-hashicorp-terraform-ubuntu@latest
 
     - checkout-hashicorp-deployment-tool: git clone --depth 1 https://github.com/paion-data/immutable-infrastructure-as-a-service.git ../immutable-infrastructure-as-a-service
-    - load-packer-variable-file: echo "$AWS_REACT_PKRVARS_HCL" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws-react.auto.pkrvars.hcl
-    - load-ssl-certificate: echo "$SSL_CERTIFICATE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/ssl.crt
-    - load-ssl-certificate-key: echo "$SSL_CERTIFICATE_KEY" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/ssl.key
-    - load-nginx-config-file-for-ssl: echo "$NGINX_CONFIG_FILE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/nginx.conf
+    - load-packer-variable-file: echo "$AWS_REACT_PKRVARS_HCL" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/aws-react.auto.pkrvars.hcl
+    - load-ssl-certificate: echo "$SSL_CERTIFICATE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/ssl.crt
+    - load-ssl-certificate-key: echo "$SSL_CERTIFICATE_KEY" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/ssl.key
+    - load-nginx-config-file-for-ssl: echo "$NGINX_CONFIG_FILE" > ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/nginx.conf
 
     - load-terraform-variable-file: echo "$AWS_REACT_TFVARS" > ../immutable-infrastructure-as-a-service/hashicorp/react/instances/aws-react.auto.tfvars
 
     - load-dot-env-file: echo "$DOT_ENV_FILE" > .env
     - generate-dist: yarn && yarn build
-    - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/react/images/dist
+    - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/dist
 
-    - packer-init: cd ../immutable-infrastructure-as-a-service/hashicorp/react/images/ && packer init .
+    - packer-init: cd ../immutable-infrastructure-as-a-service/hashicorp/react/images/aws/ && packer init .
     - packer-validate: packer validate -var "skip_create_ami=true" .
     - packer-build: packer build -var "skip_create_ami=false" .
 
