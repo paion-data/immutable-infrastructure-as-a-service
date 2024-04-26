@@ -87,7 +87,6 @@ config:
     - generate-dist: yarn && yarn build
     - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/dist
 
-    - export-home-dir: export $HOME_DIR=$(meta get parameters.image-home-dir.value)
     - packer-init: cd ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/ && packer init .
     - packer-validate: packer validate .
     - packer-build: packer build .

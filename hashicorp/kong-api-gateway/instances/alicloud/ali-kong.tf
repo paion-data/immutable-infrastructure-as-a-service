@@ -17,6 +17,11 @@ variable "ali_image_name" {
   description = "The name of the image"
 }
 
+variable "image_home_dir" {
+  type        = string
+  description = "The home directory of the image"
+}
+
 # TODO: instance_type is dependent on the region
 variable "instance_type" {
   type        = string
@@ -66,6 +71,9 @@ data "alicloud_security_groups" "kong-groups" {
 
 data "template_file" "kong-init" {
   template = file("../scripts/ali-kong-tf-init.sh")
+  vars = {
+    home_dir = var.image_home_dir
+  }
 }
 
 data "alicloud_images" "kong-images" {
