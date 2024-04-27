@@ -1,4 +1,4 @@
-# Copyright Paion Data
+# Copyright 2024 Paion Data. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,29 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "ali_image_name" {
-  type      = string
-  sensitive = true
-}
+packer {
+  required_plugins {
+    alicloud = {
+      source  = "github.com/hashicorp/alicloud"
+      version = "~> 1"
+    }
 
-
-
-variable "instance_type" {
-  type        = string
-  description = "ECS instance types defined in https://www.alibabacloud.com/help/doc-detail/25378.htm"
-}
-
-variable "ssl_cert_source" {
-  type      = string
-  sensitive = true
-}
-
-variable "ssl_cert_key_source" {
-  type      = string
-  sensitive = true
-}
-
-variable "react_app_domain" {
-  type      = string
-  sensitive = true
+    iiaas = {
+      version = ">= 0.0.4"
+      source  = "github.com/paion-data/paion-data"
+    }
+  }
 }

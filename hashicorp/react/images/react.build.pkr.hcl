@@ -12,6 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+variable "build_source" {
+  type      = string
+  sensitive = false
+
+  validation {
+    condition     = contains(["alicloud-ecs.react-app", "amazon-ebs.react-app", "docker.ubuntu"], var.build_source)
+    error_message = "Allowed values for build_source are 'alicloud-ecs.kong-gateway' for Alicloud, 'amazon-ebs.kong' for AWS, or 'docker.ubuntu' for Docker."
+  }
+}
+
+variable "image_home_dir" {
+  type      = string
+  sensitive = true
+  default   = "/root"
+}
+
 build {
   name = "install-react"
   sources = [
