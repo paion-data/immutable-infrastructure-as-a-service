@@ -85,7 +85,7 @@ config:
 
     - install-yarn: npm install --global yarn
     - generate-dist: yarn && yarn build
-    - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/dist
+    - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/react/images/dist
 
     - packer-init: cd ../immutable-infrastructure-as-a-service/hashicorp/react/images/alicloud/ && packer init .
     - packer-validate: packer validate .
