@@ -40,33 +40,38 @@ variable "security_group_names" {
 variable "internet_charge_type" {
   type        = string
   description = "The charge type of the instance"
-  default = "PayByBandwidth"
-  
+  default     = "PayByBandwidth"
+
   validation {
-    condition = contains(["PayByBandwidth", "PayByTraffic"], var.internet_charge_type)
+    condition     = contains(["PayByBandwidth", "PayByTraffic"], var.internet_charge_type)
     error_message = "Invalid internet charge type"
   }
 }
 
 variable "system_disk_category" {
-  type = string
+  type        = string
   description = "System disk category"
-  default = "cloud_essd_entry"
+  default     = "cloud_essd_entry"
 
   validation {
-    condition = contains(["ephemeral_ssd", "cloud_efficiency", "cloud_ssd", "cloud_essd", "cloud_essd_entry", "cloud", "cloud_auto"], var.system_disk_category)
+    condition     = contains(["ephemeral_ssd", "cloud_efficiency", "cloud_ssd", "cloud_essd", "cloud_essd_entry", "cloud", "cloud_auto"], var.system_disk_category)
     error_message = "Invalid system disk category"
   }
 }
 
 variable "internet_max_bandwidth_out" {
-  type = number
+  type        = number
   description = "The maximum outbound bandwidth of the instance"
-  default = 1
+  default     = 1
+}
+
+variable "kong_instance_name" {
+  type        = string
+  description = "The Kong admin URI"
 }
 
 data "alicloud_security_groups" "ws-groups" {
-  name_regex  = join("|", var.security_group_names)
+  name_regex = join("|", var.security_group_names)
 }
 
 data "template_file" "ws-init" {
@@ -79,6 +84,11 @@ data "template_file" "ws-init" {
 data "alicloud_images" "ws-images" {
   image_name = var.ali_image_name
   owners     = "self"
+}
+
+data "alicloud_instances" "kong-instance" {
+  instance_name = var.kong_instance_name
+  status = "Running"
 }
 
 resource "alicloud_instance" "ws-instance" {
@@ -105,6 +115,24 @@ resource "alicloud_instance" "ws-instance" {
   user_data = data.template_file.ws-init.rendered
 }
 
+// kong service
+resource "kong_service" "ws-service" {
+	name     	= "web_service"
+	protocol 	= "http"
+	port     	= 8080
+}
+
+// kong route
+resource "kong_route" "ws-route" {
+  name           = "ws-route"
+  protocols      = ["https"]
+  methods        = ["GET", "POST", "PUT", "DELETE"]
+  paths          = ["/api"]
+  strip_path     = true
+  regex_priority = 1
+  service_id     = var.kong_service.ws-service.id
+}
+
 terraform {
   required_providers {
     alicloud = {
@@ -115,9 +143,17 @@ terraform {
       source  = "hashicorp/template"
       version = "2.2.0"
     }
+    kong = {
+      source  = "kevholditch/kong"
+      version = "6.5.1"
+    }
   }
 
   required_version = ">= 0.14.5"
 }
 
 provider "alicloud" {}
+
+provider "kong" {
+  kong_instance_name = var.alicloud_instance.kong-instance.instances[0].public_ip
+}
