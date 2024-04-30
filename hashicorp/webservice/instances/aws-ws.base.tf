@@ -58,11 +58,8 @@ provider "aws" {
   region = var.aws_deploy_region
 }
 
-variable "init_script_path" {
-  value = join("", ["../../scripts/", var.init_script])
-}
 data "template_file" "aws-ws-init" {
-  template = "${file(${var.init_script_path})}"
+  template = "${file("../../scripts/${locals.init_script}")}"
 }
 
 data "aws_ami" "latest-ws" {

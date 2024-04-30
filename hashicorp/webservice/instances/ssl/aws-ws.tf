@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "init_script" {
-  value = "aws-ws-tf-init-ssl.sh"
-  description = "The webservice startup script upon EC2 is up and running"
+locals {
+  init_script = "aws-ws-tf-init-ssl.sh"
 }
 
 variable "route_53_zone_id" {
