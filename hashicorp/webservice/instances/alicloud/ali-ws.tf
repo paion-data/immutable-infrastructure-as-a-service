@@ -70,6 +70,21 @@ variable "kong_instance_name" {
   description = "The Kong admin URI"
 }
 
+variable "service_port" {
+  type        = number
+  description = "The port of the service"
+}
+
+variable "service_name" {
+  type    = string
+  default = "The name of the service"
+}
+
+variable "gateway_route_path_list" {
+  type        = list(string)
+  description = "The path of the gateway route"
+}
+
 data "alicloud_security_groups" "ws-groups" {
   name_regex = join("|", var.security_group_names)
 }
@@ -117,20 +132,20 @@ resource "alicloud_instance" "ws-instance" {
 
 // kong service
 resource "kong_service" "ws-service" {
-  name     = "web_service"
+  name     = var.service_name
   protocol = "http"
-  port     = 8080
+  port     = var.service_port
 }
 
 // kong route
 resource "kong_route" "ws-route" {
-  name           = "ws-route"
+  name           = "${var.service_name}_route"
   protocols      = ["https"]
   methods        = ["GET", "POST", "PUT", "DELETE"]
-  paths          = ["/api"]
+  paths          = var.gateway_route_path_list
   strip_path     = true
   regex_priority = 1
-  service_id     = var.kong_service.ws-service.id
+  service_id     = kong_service.ws-service.id
 }
 
 terraform {
@@ -155,5 +170,5 @@ terraform {
 provider "alicloud" {}
 
 provider "kong" {
-  kong_instance_name = var.alicloud_instance.kong-instance.instances[0].public_ip
+  kong_admin_uri = "https://${data.alicloud_instance.kong-instance.instances[0].public_ip}:8001"
 }
