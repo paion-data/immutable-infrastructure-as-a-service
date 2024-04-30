@@ -65,6 +65,11 @@ variable "internet_max_bandwidth_out" {
   default     = 1
 }
 
+variable "kong_instance_name" {
+  type        = string
+  description = "The Kong admin URI"
+}
+
 data "alicloud_security_groups" "ws-groups" {
   name_regex = join("|", var.security_group_names)
 }
@@ -79,6 +84,11 @@ data "template_file" "ws-init" {
 data "alicloud_images" "ws-images" {
   image_name = var.ali_image_name
   owners     = "self"
+}
+
+data "alicloud_instances" "kong-instance" {
+  instance_name = var.kong_instance_name
+  status        = "Running"
 }
 
 resource "alicloud_instance" "ws-instance" {
@@ -105,6 +115,24 @@ resource "alicloud_instance" "ws-instance" {
   user_data = data.template_file.ws-init.rendered
 }
 
+// kong service
+resource "kong_service" "ws-service" {
+  name     = "web_service"
+  protocol = "http"
+  port     = 8080
+}
+
+// kong route
+resource "kong_route" "ws-route" {
+  name           = "ws-route"
+  protocols      = ["https"]
+  methods        = ["GET", "POST", "PUT", "DELETE"]
+  paths          = ["/api"]
+  strip_path     = true
+  regex_priority = 1
+  service_id     = var.kong_service.ws-service.id
+}
+
 terraform {
   required_providers {
     alicloud = {
@@ -115,9 +143,17 @@ terraform {
       source  = "hashicorp/template"
       version = "2.2.0"
     }
+    kong = {
+      source  = "kevholditch/kong"
+      version = "6.5.1"
+    }
   }
 
   required_version = ">= 0.14.5"
 }
 
 provider "alicloud" {}
+
+provider "kong" {
+  kong_instance_name = var.alicloud_instance.kong-instance.instances[0].public_ip
+}
