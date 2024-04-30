@@ -51,7 +51,7 @@ variable "kong_api_gateway_domain" {
 }
 
 build {
-  name    = "install-kong"
+  name = "install-kong"
   sources = [
     "source.${var.build_source}"
   ]

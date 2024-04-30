@@ -17,15 +17,15 @@ locals {
 }
 
 variable "route_53_zone_id" {
-  type = string
+  type        = string
   description = "Hosted zone ID on Route 53"
-  sensitive = true
+  sensitive   = true
 }
 
 variable "ws_domain" {
-  type = string
+  type        = string
   description = "Domain name that Nexus Graph queries against"
-  sensitive = true
+  sensitive   = true
 }
 
 resource "aws_route53_record" "aws-ws" {

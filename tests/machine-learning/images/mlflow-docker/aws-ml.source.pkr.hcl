@@ -16,7 +16,7 @@ source "docker" "ubuntu" {
   image  = "paiondata/iiaas-machine-learning-test:latest"
   commit = true
   volumes = {
-    "/var/run/docker.sock": "/var/run/docker.sock"
+    "/var/run/docker.sock" : "/var/run/docker.sock"
   }
   changes = [
     "USER ubuntu",
