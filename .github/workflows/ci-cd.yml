@@ -46,7 +46,7 @@ jobs:
 
   docker-image:
     name: Publish docker images for "Packer Image Build Test"
-    needs: ["yml-md-style-and-link-checks", "validate-packer-and-terraform-scripts"]
+    needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -101,7 +101,7 @@ jobs:
 
   list-screwdriver-templates:
     name: Listing Screwdriver Templates to Validate
-    needs: ["yml-md-style-and-link-checks", "validate-packer-and-terraform-scripts"]
+    needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
     runs-on: ubuntu-latest
     outputs:
       paths: ${{ steps.list-screwdriver-templates.outputs.paths }}
@@ -149,7 +149,7 @@ jobs:
 
   list-screwdriver-command-scripts:
     name: Listing Screwdriver Command Scripts to Test
-    needs: ["yml-md-style-and-link-checks", "validate-packer-and-terraform-scripts"]
+    needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
     runs-on: ubuntu-latest
     outputs:
       paths: ${{ steps.list-screwdriver-command-scripts.outputs.paths }}
@@ -180,7 +180,7 @@ jobs:
 
   list-screwdriver-commands:
     name: Listing Screwdriver Commands to Validate
-    needs: ["yml-md-style-and-link-checks", "validate-packer-and-terraform-scripts"]
+    needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
     runs-on: ubuntu-latest
     outputs:
       paths: ${{ steps.list-screwdriver-commands.outputs.paths }}
