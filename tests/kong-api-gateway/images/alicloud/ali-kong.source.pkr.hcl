@@ -14,7 +14,7 @@
 
 variable "docker_image" {
   type    = string
-  default = "paiondata/iiaas-kong-api-gateway-test:latest"
+  default = "paiondata/iiaas-kong-api-gateway-test-base:latest"
 }
 
 source "docker" "ubuntu" {
