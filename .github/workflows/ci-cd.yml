@@ -34,15 +34,15 @@ jobs:
   yml-md-style-and-link-checks:
     uses: paion-data/github-actions-core/.github/workflows/yml-md-style-and-link-checks.yml@master
 
-  validate-packer-and-terraform-scripts:
-    name: Validate Packer and Terraform Scripts
+  hashicorp-linting:
+    name: Packer & Terraform Files Linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Validate Packer and Terraform Scripts
-        run: |
-          packer fmt -check -recursive .
-          terraform fmt -check -recursive .
+      - name: Validate Packer Scripts
+        run: packer fmt -check -recursive .
+      - name: Validate Terraform Scripts
+        run: terraform fmt -check -recursive .
 
   docker-image:
     name: Publish docker images for "Packer Image Build Test"
