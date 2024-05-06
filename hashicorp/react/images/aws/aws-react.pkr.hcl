@@ -18,6 +18,11 @@ packer {
       version = ">= 0.0.2"
       source  = "github.com/hashicorp/amazon"
     }
+
+    iiaas = {
+      source  = "github.com/paion-data/paion-data"
+      version = ">= 0.0.6"
+    }
   }
 }
 
