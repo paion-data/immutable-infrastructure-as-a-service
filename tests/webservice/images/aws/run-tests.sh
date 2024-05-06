@@ -21,8 +21,8 @@ declare -a images=("basic" "ssl")
 
 for image in "${images[@]}"
 do
-    export PACKER_IMAGE_DIR="${PWD}/../../../hashicorp/webservice/images/${image}"
-    export SCRIPT_DIR="${PWD}/../../../hashicorp/webservice/scripts"
+    export PACKER_IMAGE_DIR="${PWD}/../../../../hashicorp/webservice/images/aws/${image}"
+    export SCRIPT_DIR="${PWD}/../../../../hashicorp/webservice/scripts"
 
     cp -r * $PACKER_IMAGE_DIR
 

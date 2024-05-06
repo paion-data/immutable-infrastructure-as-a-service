@@ -34,43 +34,11 @@ variable "ws_filebeat_config_file_path" {
   sensitive = true
 }
 
-variable "aws_ws_ssl_cert_file_path" {
-  type      = string
-  sensitive = true
-}
-
-variable "aws_ws_ssl_cert_key_file_path" {
-  type      = string
-  sensitive = true
-}
-
-variable "aws_ws_nginx_config_file_path" {
-  type      = string
-  sensitive = true
-}
-
-
 build {
   name = "install-ws"
   sources = [
     "source.${var.build_source}"
   ]
-
-  # Load SSL Certificates into AMI image
-  provisioner "file" {
-    source      = "${var.aws_ws_ssl_cert_file_path}"
-    destination = "${var.image_home_dir}/server.crt"
-  }
-  provisioner "file" {
-    source      = "${var.aws_ws_ssl_cert_key_file_path}"
-    destination = "${var.image_home_dir}/server.key"
-  }
-
-  # Load Nginx config file into AMI image
-  provisioner "file" {
-    source      = "./nginx-ssl.conf"
-    destination = "${var.image_home_dir}/nginx-ssl.conf"
-  }
 
   # Load Filebeat config into AMI image
   provisioner "file" {
@@ -86,11 +54,10 @@ build {
 
   provisioner "shell" {
     scripts = [
-      "../../scripts/aws-ws-pkr-base-ami-update.sh",
-      "../../scripts/aws-ws-pkr-setup-jdk-17.sh",
-      "../../scripts/aws-ws-pkr-setup-jdk-17-jetty.sh",
-      "../../scripts/aws-ws-pkr-setup-ssl.sh",
-      "../../scripts/aws-ws-pkr-setup-filebeat.sh",
+      "../../../scripts/aws-ws-pkr-base-ami-update.sh",
+      "../../../scripts/aws-ws-pkr-setup-jdk-17.sh",
+      "../../../scripts/aws-ws-pkr-setup-jdk-17-jetty.sh",
+      "../../../scripts/aws-ws-pkr-setup-filebeat.sh"
     ]
     environment_vars = [
       "HOME_DIR=${var.image_home_dir}"

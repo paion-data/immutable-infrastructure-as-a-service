@@ -55,16 +55,16 @@ config:
     - checkout-hashicorp-deployment-tool: git clone --depth 1 https://github.com/paion-data/immutable-infrastructure-as-a-service.git ../hashicorp-aws
 
     - setup-packer: |
-        cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.packer.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
-        cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.source.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
+        cp ../hashicorp-aws/hashicorp/webservice/images/aws/aws-ws.packer.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/aws/basic
+        cp ../hashicorp-aws/hashicorp/webservice/images/aws/aws-ws.source.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/aws/basic
     - load-packer-variable-file: |
-        echo ami_region                   = \"$(meta get parameters.ami-region.value)\"    >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo ami_name                     = \"$(meta get parameters.ami-name.value)\"      >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo instance_type                = \"$(meta get parameters.instance-type.value)\" >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo ws_war_path                  = \"ROOT.war\"                                   >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo ws_filebeat_config_file_path = \"filebeat.yml\"                               >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo ami_region                   = \"$(meta get parameters.ami-region.value)\"    >> ../hashicorp-aws/hashicorp/webservice/images/aws/basic/aws-ws.auto.pkrvars.hcl
+        echo ami_name                     = \"$(meta get parameters.ami-name.value)\"      >> ../hashicorp-aws/hashicorp/webservice/images/aws/basic/aws-ws.auto.pkrvars.hcl
+        echo instance_type                = \"$(meta get parameters.instance-type.value)\" >> ../hashicorp-aws/hashicorp/webservice/images/aws/basic/aws-ws.auto.pkrvars.hcl
+        echo ws_war_path                  = \"ROOT.war\"                                   >> ../hashicorp-aws/hashicorp/webservice/images/aws/basic/aws-ws.auto.pkrvars.hcl
+        echo ws_filebeat_config_file_path = \"filebeat.yml\"                               >> ../hashicorp-aws/hashicorp/webservice/images/aws/basic/aws-ws.auto.pkrvars.hcl
 
-        cat  << EOF >>../hashicorp-aws/hashicorp/webservice/images/basic/filebeat.yml
+        cat  << EOF >>../hashicorp-aws/hashicorp/webservice/images/aws/basic/filebeat.yml
         filebeat.config.modules:
           path: ${path.config}/modules.d/*.yml
           reload.enabled: false
@@ -78,20 +78,20 @@ config:
           hosts: $(meta get parameters.elk-hosts.value)
         EOF
 
-    - setup-terraform: cp ../hashicorp-aws/hashicorp/webservice/instances/aws-ws.base.tf ../hashicorp-aws/hashicorp/webservice/instances/basic
+    - setup-terraform: cp ../hashicorp-aws/hashicorp/webservice/instances/aws/aws-ws.base.tf ../hashicorp-aws/hashicorp/webservice/instances/aws/basic
     - load-terraform-variable-file: |
-        echo aws_deploy_region = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo ami_name          = \"$(meta get parameters.ami-name.value)\"          >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo instance_type     = \"$(meta get parameters.instance-type.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo ec2_instance_name = \"$(meta get parameters.instance-name.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo security_groups   = $(meta get parameters.security-groups.value)       >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo aws_deploy_region = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/aws/basic/aws-ws.auto.tfvars
+        echo ami_name          = \"$(meta get parameters.ami-name.value)\"          >> ../hashicorp-aws/hashicorp/webservice/instances/aws/basic/aws-ws.auto.tfvars
+        echo instance_type     = \"$(meta get parameters.instance-type.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/aws/basic/aws-ws.auto.tfvars
+        echo ec2_instance_name = \"$(meta get parameters.instance-name.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/aws/basic/aws-ws.auto.tfvars
+        echo security_groups   = $(meta get parameters.security-groups.value)       >> ../hashicorp-aws/hashicorp/webservice/instances/aws/basic/aws-ws.auto.tfvars
 
     - clone-webservice: git clone --depth 1 $(meta get parameters.ws-repo-git.value) ../ws
 
     - generate-war: cd ../ws && mvn -B clean package -Dcheckstyle.skip -Dmaven.test.skip
-    - relocate-war-for-hashicorp: cd ../ws && mv target/*.war ../hashicorp-aws/hashicorp/webservice/images/basic/ROOT.war
+    - relocate-war-for-hashicorp: cd ../ws && mv target/*.war ../hashicorp-aws/hashicorp/webservice/images/aws/basic/ROOT.war
 
-    - packer-init: cd ../hashicorp-aws/hashicorp/webservice/images/basic && packer init .
+    - packer-init: cd ../hashicorp-aws/hashicorp/webservice/images/aws/basic && packer init .
     - packer-validate: packer validate -var "skip_create_ami=true" .
     - packer-build: packer build -var "skip_create_ami=false" .
 
