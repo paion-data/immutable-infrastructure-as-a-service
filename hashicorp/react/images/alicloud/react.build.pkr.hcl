@@ -29,6 +29,11 @@ variable "image_home_dir" {
   default   = "/root"
 }
 
+variable "dist_path" {
+  type      = string
+  sensitive = true
+}
+
 build {
   name = "install-react"
   sources = [
@@ -36,7 +41,7 @@ build {
   ]
 
   provisioner "file" {
-    source      = "../dist"
+    source      = var.dist_path
     destination = "${var.image_home_dir}/dist"
   }
 
