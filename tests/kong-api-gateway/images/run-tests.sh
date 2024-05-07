@@ -16,17 +16,17 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export TEST_DIR="${PWD}"
+# export TEST_DIR="${PWD}"
 
-export PACKER_IMAGE_DIR="${PWD}/../../../hashicorp/kong-api-gateway/images"
+# export PACKER_IMAGE_DIR="${PWD}/../../../hashicorp/kong-api-gateway/images"
 
-cp ali-kong.packer.pkr.hcl $PACKER_IMAGE_DIR
-cp ali-kong.source.pkr.hcl $PACKER_IMAGE_DIR
-cp ali-kong.build.auto.pkrvars.hcl $PACKER_IMAGE_DIR
+# cp ali-kong.packer.pkr.hcl $PACKER_IMAGE_DIR
+# cp ali-kong.source.pkr.hcl $PACKER_IMAGE_DIR
+# cp ali-kong.build.auto.pkrvars.hcl $PACKER_IMAGE_DIR
 
-cd $PACKER_IMAGE_DIR
+# cd $PACKER_IMAGE_DIR
 packer init .
 packer validate .
 packer build .
 
-cd $TEST_DIR
+# cd $TEST_DIR

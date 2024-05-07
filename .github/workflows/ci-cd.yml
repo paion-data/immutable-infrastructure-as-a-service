@@ -44,7 +44,7 @@ jobs:
       - name: Validate Terraform Scripts
         run: terraform fmt -check -recursive .
 
-  docker-image:
+  docker-base-images:
     name: Publish docker images for "Packer Image Build Test"
     needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
     runs-on: ubuntu-latest
@@ -52,11 +52,11 @@ jobs:
       fail-fast: true
       matrix:
         docker: [
-          {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test},
-          {dockerfile-path: tests/react, image-name: iiaas-react-test},
-          {dockerfile-path: tests/kong-api-gateway, image-name: iiaas-kong-api-gateway-test},
-          {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test},
-          {dockerfile-path: tests/elk, image-name: iiaas-elk-test}
+          {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test-base},
+          {dockerfile-path: tests/react, image-name: iiaas-react-test-base},
+          {dockerfile-path: tests/kong-api-gateway, image-name: iiaas-kong-api-gateway-test-base},
+          {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test-base},
+          {dockerfile-path: tests/elk, image-name: iiaas-elk-test-base}
         ]
     steps:
       - name: Checkout
@@ -77,27 +77,37 @@ jobs:
           push: true
           tags: paiondata/${{ matrix.docker.image-name }}:latest
 
-  tests:
+  packer-tests:
     name: Image Build Test
-    needs: docker-image
+    needs: docker-base-images
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        test-directory: [
-          tests/machine-learning/images,
-          # tests/react/images,
-          tests/kong-api-gateway/images,
-          tests/webservice/images/aws,
-          tests/elk/images,
+        tests: [
+          {test-directory: tests/kong-api-gateway/images, image-name: iiaas-kong-api-gateway-test},
         ]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Docker for AMI Tests
         uses: docker-practice/actions-setup-docker@master
       - run: |
-          cd ${{ matrix.test-directory }}
+          cd ${{ matrix.tests.test-directory }}
           ./run-tests.sh
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: paiondata
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push image to DockerHub
+        run: docker push paiondata/${{ matrix.tests.image-name }}:latest
+
+  terraform-it-tests:
+    name: Terraform Integration Tests
+    needs: packer-tests
+    runs-on: ubuntu-latest
+    steps:
+      - run: terraform test
 
   list-screwdriver-templates:
     name: Listing Screwdriver Templates to Validate
@@ -221,7 +231,7 @@ jobs:
 
   documentation-ci-cd:
     name: Test Documentation Build & Deploy Documentation to GitHub Pages
-    needs: [tests, validate-screwdriver-templates, validate-screwdriver-commands, test-screwdriver-command-scripts]
+    needs: [terraform-it-tests, validate-screwdriver-templates, validate-screwdriver-commands, test-screwdriver-command-scripts]
     outputs:
       outcome: ${{ job.status }}
     continue-on-error: true
