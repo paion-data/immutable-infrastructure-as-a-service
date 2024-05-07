@@ -170,5 +170,5 @@ terraform {
 provider "alicloud" {}
 
 provider "kong" {
-  kong_admin_uri = "http://${data.alicloud_instance.kong-instance.instances[0].private_ip}:8001"
+  kong_admin_uri = "https://${data.alicloud_instance.kong-instance.instances[0].private_ip}:8444"
 }
