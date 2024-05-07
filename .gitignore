@@ -17,3 +17,4 @@
 hashicorp/**/*.auto.tfvars
 hashicorp/**/*.auto.pkrvars.hcl
 .terraform/
+.pre-commit-config.yaml
