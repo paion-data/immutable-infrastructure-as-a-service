@@ -1,0 +1,5 @@
+run "kong" {
+    command = plan
+
+    
+}
