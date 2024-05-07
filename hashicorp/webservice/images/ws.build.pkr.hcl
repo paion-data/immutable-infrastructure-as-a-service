@@ -15,13 +15,21 @@
 variable "build_source" {
   type      = string
   sensitive = false
-  default   = "amazon-ebs.ws"
+
+  validation {
+    condition     = contains(["alicloud-ecs.ws", "amazon-ebs.ws", "docker.ubuntu"], var.build_source)
+    error_message = "Allowed values for build_source are 'alicloud-ecs.kong-gateway' for Alicloud, 'amazon-ebs.kong' for AWS, or 'docker.ubuntu' for Docker."
+  }
 }
 
 variable "image_home_dir" {
   type      = string
   sensitive = true
-  default   = "/home/ubuntu"
+
+  validation {
+    condition     = contains(["/root", "/home/ubuntu", "/"], var.image_home_dir)
+    error_message = "Allowed values for image_home_dir are '/root' for Alicloud, '/home/ubuntu' for AWS, or '/' in general."
+  }
 }
 
 variable "ws_war_path" {
@@ -42,22 +50,22 @@ build {
 
   # Load Filebeat config into AMI image
   provisioner "file" {
-    source      = "${var.ws_filebeat_config_file_path}"
+    source      = var.ws_filebeat_config_file_path
     destination = "${var.image_home_dir}/filebeat.yml"
   }
 
   # Load WS WAR file into AMI image
   provisioner "file" {
-    source      = "${var.ws_war_path}"
+    source      = var.ws_war_path
     destination = "${var.image_home_dir}/ROOT.war"
   }
 
   provisioner "shell" {
     scripts = [
-      "../../../scripts/aws-ws-pkr-base-ami-update.sh",
-      "../../../scripts/aws-ws-pkr-setup-jdk-17.sh",
-      "../../../scripts/aws-ws-pkr-setup-jdk-17-jetty.sh",
-      "../../../scripts/aws-ws-pkr-setup-filebeat.sh"
+      "../scripts/ali-ws-pkr-base-ami-update.sh",
+      "../scripts/ali-ws-pkr-setup-jdk-17.sh",
+      "../scripts/ali-ws-pkr-setup-jdk-17-jetty.sh",
+      "../scripts/ali-ws-pkr-setup-filebeat.sh"
     ]
     environment_vars = [
       "HOME_DIR=${var.image_home_dir}"

@@ -16,9 +16,20 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apt update && apt upgrade -y
-apt install software-properties-common -y
-add-apt-repository ppa:deadsnakes/ppa -y
-apt install python3.10 -y
-apt install python3-pip -y
-apt install python3.10-venv -y
+export TEST_DIR="${PWD}"
+declare -a images=("basic" "ssl")
+
+for image in "${images[@]}"
+do
+    export PACKER_IMAGE_DIR="${PWD}/../../../hashicorp/webservice/images/aws/${image}"
+    export SCRIPT_DIR="${PWD}/../../../hashicorp/webservice/scripts"
+
+    cp -r * $PACKER_IMAGE_DIR
+
+    cd $PACKER_IMAGE_DIR
+    packer init .
+    packer validate .
+    packer build .
+
+    cd $TEST_DIR
+done

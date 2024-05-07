@@ -88,7 +88,7 @@ resource "alicloud_instance" "kong-instance" {
   # instance and image
   # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
   instance_type = var.instance_type
-  image_id      = data.alicloud_images.kong-images.images.0.id
+  image_id      = data.alicloud_images.kong-images.images[0].id
   instance_name = var.instance_name
 
   # disk
@@ -96,11 +96,11 @@ resource "alicloud_instance" "kong-instance" {
 
   # Bandwidth and safety group
   internet_max_bandwidth_out = var.internet_max_bandwidth_out
-  security_groups            = data.alicloud_security_groups.kong-security-groups.groups.ids
+  security_groups            = data.alicloud_security_groups.kong-groups.groups.ids
 
   # Management settings
   tags = {
-    Name = "${var.instance_name}"
+    Name = var.instance_name
   }
   user_data = data.template_file.kong-init.rendered
 }
@@ -116,6 +116,8 @@ terraform {
       version = "2.2.0"
     }
   }
+
+  required_version = ">= 0.14.5"
 }
 
 provider "alicloud" {}
