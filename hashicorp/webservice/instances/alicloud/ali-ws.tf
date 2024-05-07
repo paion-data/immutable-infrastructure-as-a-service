@@ -76,8 +76,8 @@ variable "service_port" {
 }
 
 variable "service_name" {
-  type    = string
-  default = "The name of the service"
+  type        = string
+  description = "The name of the service"
 }
 
 variable "gateway_route_path_list" {
@@ -170,5 +170,5 @@ terraform {
 provider "alicloud" {}
 
 provider "kong" {
-  kong_admin_uri = "https://${data.alicloud_instance.kong-instance.instances[0].public_ip}:8001"
+  kong_admin_uri = "http://${data.alicloud_instance.kong-instance.instances[0].private_ip}:8001"
 }
