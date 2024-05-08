@@ -34,7 +34,7 @@ How to Use This Template
 
 The template needs to be installed first in Screwdriver running instance. Installation has two parts:
 
-1. [the template](https://github.com/paion-data/immutable-infrastructure-as-a-service/tree/master/adaptors/screwdriver-cd/templates/kong-api-gateway-sd-template.yaml)
+1. [the template](https://github.com/paion-data/screwdriver-marketplace/blob/master/templates/kong-api-gateway-sd-template.yaml)
 2. Some [pre-defined Screwdriver commands][Screwdriver CD - commands] that this template uses
 
 The template and the commands can be automatically installed using the regular [screwdriver.yaml] config file by
@@ -84,7 +84,7 @@ Then hit "**Submit**" to start deploying.
 [publishing a template in Screwdriver]: https://paion-data.github.io/screwdriver-cd-guide/user-guide/templates/job-templates#writing-a-screwdriver-yaml-for-your-template-repo
 
 [screwdriver.yaml]: https://github.com/paion-data/immutable-infrastructure-as-a-service/tree/master/screwdriver.yaml
-[Screwdriver CD - commands]: https://github.com/paion-data/immutable-infrastructure-as-a-service/tree/master/adaptors/screwdriver-cd/commands
+[Screwdriver CD - commands]: https://github.com/paion-data/screwdriver-marketplace/tree/master/commands
 [Screwdriver CD - creating pipeline from template]: https://paion-data.github.io/screwdriver-cd-guide/user-guide/templates/job-templates#using-a-template
 [Screwdriver CD - finding templates]: https://paion-data.github.io/screwdriver-cd-guide/user-guide/templates/job-templates#finding-templates
 [Screwdriver CD - finding commands]: https://paion-data.github.io/screwdriver-cd-guide/user-guide/commands#finding-commands

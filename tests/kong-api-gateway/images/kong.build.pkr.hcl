@@ -68,8 +68,11 @@ build {
     kongApiGatewayDomain = "${var.kong_api_gateway_domain}"
   }
 
-  provisioner "shell" {
-    script = "../scripts/ali-kong-tf-init.sh"
-  }
+  // provisioner "shell" {
+  //   script = "../scripts/ali-kong-tf-init.sh"
+  //   environment_vars = [
+  //     "HOME_DIR=${var.image_home_dir}"
+  //   ]
+  // }
 }
 
