@@ -76,6 +76,7 @@ data "template_file" "kong-init" {
   }
 }
 
+// TODO: image_name 多版本会有问题  修改成image_id
 data "alicloud_images" "kong-images" {
   image_name = var.ali_image_name
   owners     = "self"

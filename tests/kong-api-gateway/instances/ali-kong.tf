@@ -12,110 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "ali_image_name" {
+variable "docker_image" {
   type        = string
   description = "The name of the image"
 }
 
-variable "image_home_dir" {
+variable "docker_container_name" {
   type        = string
-  description = "The home directory of the image"
+  description = "The name of the container"
 }
 
-# TODO: instance_type is dependent on the region
-variable "instance_type" {
-  type        = string
-  description = "EC2 instance types defined in https://www.alibabacloud.com/help/doc-detail/25378.htm"
+resource "docker_image" "kong-gateway-image" {
+  name         = var.docker_image
+  keep_locally = false
 }
 
-variable "instance_name" {
-  type = string
-}
-
-variable "security_group_names" {
-  type        = list(string)
-  description = "ECS security group name"
-}
-
-variable "internet_charge_type" {
-  type        = string
-  description = "The charge type of the instance"
-  default     = "PayByBandwidth"
-
-  validation {
-    condition     = contains(["PayByBandwidth", "PayByTraffic"], var.internet_charge_type)
-    error_message = "Invalid internet charge type"
-  }
-}
-
-variable "system_disk_category" {
-  type        = string
-  description = "System disk category"
-  default     = "cloud_essd_entry"
-
-  validation {
-    condition     = contains(["ephemeral_ssd", "cloud_efficiency", "cloud_ssd", "cloud_essd", "cloud_essd_entry", "cloud", "cloud_auto"], var.system_disk_category)
-    error_message = "Invalid system disk category"
-  }
-}
-
-variable "internet_max_bandwidth_out" {
-  type        = number
-  description = "The maximum outbound bandwidth of the instance"
-  default     = 1
-}
-
-data "alicloud_security_groups" "kong-groups" {
-  name_regex = join("|", var.security_group_names)
-}
-
-data "template_file" "kong-init" {
-  template = file("../scripts/ali-kong-tf-init.sh")
-  vars = {
-    home_dir = var.image_home_dir
-  }
-}
-
-data "alicloud_images" "kong-images" {
-  image_name = var.ali_image_name
-  owners     = "self"
-}
-
-resource "alicloud_instance" "kong-instance" {
-  # charging rules see in https://help.aliyun.com/zh/ecs/product-overview/overview-51
-  internet_charge_type = var.internet_charge_type
-
-  # instance and image
-  # instance type define in https://help.aliyun.com/zh/ecs/user-guide/overview-of-instance-families#enterprise-x86
-  instance_type = var.instance_type
-  image_id      = data.alicloud_images.kong-images.images.0.id
-  instance_name = var.instance_name
-
-  # disk
-  system_disk_category = var.system_disk_category
-
-  # Bandwidth and safety group
-  internet_max_bandwidth_out = var.internet_max_bandwidth_out
-  security_groups            = data.alicloud_security_groups.kong-security-groups.groups.ids
-
-  # Management settings
-  tags = {
-    Name = "${var.instance_name}"
-  }
-  user_data = data.template_file.kong-init.rendered
+resource "docker_container" "kong-container" {
+  image = docker_image.kong-gateway-image.image_id
+  name  = var.docker_container_name
 }
 
 terraform {
   required_providers {
-    alicloud = {
-      source  = "aliyun/alicloud"
-      version = "1.220.1"
-    }
-    template = {
-      source  = "hashicorp/template"
-      version = "2.2.0"
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.1"
     }
   }
+
+  required_version = ">= 0.14.5"
 }
 
-provider "alicloud" {}
+provider "docker" {}
