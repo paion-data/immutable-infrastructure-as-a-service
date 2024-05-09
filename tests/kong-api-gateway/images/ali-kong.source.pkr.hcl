@@ -18,10 +18,10 @@ variable "docker_image" {
 }
 
 source "docker" "ubuntu" {
-  image  = var.docker_image
-  commit = true
-  // privileged  = true
-  // run_command = ["-d", "-i", "-t", "--entrypoint=/usr/sbin/init", "--", "{{.Image}}"]
+  image      = var.docker_image
+  commit     = true
+  privileged = true
+  // run_command = ["-d", "-i", "-t", "--entrypoint=/bin/sh", "--", "{{.Image}}"]
 
-  changes = ["CMD ['bash', 'kong-init.sh', '${var.image_home_dir}']"]
+  changes = ["CMD [\"\"]"]
 }

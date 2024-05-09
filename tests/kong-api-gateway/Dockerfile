@@ -13,11 +13,9 @@
 # limitations under the License.
 FROM ubuntu:22.04
 
-LABEL maintainer="Paion Data"
-LABEL maintainer-email="jingjinghu@paion-data.dev"
+LABEL maintainer="Paion Data" \
+      maintainer-email="jingjinghu@paion-data.dev"
 
-RUN apt update
-RUN apt upgrade -y
-RUN apt install software-properties-common -y
-RUN apt install wget curl sudo -y
-CMD [ "bash", "kong-init.sh", "/" ]
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y software-properties-common wget curl sudo 

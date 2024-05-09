@@ -70,7 +70,7 @@ jobs:
         with:
           username: paiondata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push image to DockerHub
+      - name: Push Base image to DockerHub
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.docker.dockerfile-path }}
@@ -89,9 +89,10 @@ jobs:
         ]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Docker for AMI Tests
+      - name: Set up Docker for Images Tests
         uses: docker-practice/actions-setup-docker@master
-      - run: |
+      - name: Test Packer Build
+        run: |
           cd ${{ matrix.tests.test-directory }}
           ./run-tests.sh
       - name: Login to DockerHub
@@ -99,7 +100,7 @@ jobs:
         with:
           username: paiondata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push image to DockerHub
+      - name: Push Test image to DockerHub
         run: docker push paiondata/${{ matrix.tests.image-name }}:latest
 
   terraform-it-tests:
