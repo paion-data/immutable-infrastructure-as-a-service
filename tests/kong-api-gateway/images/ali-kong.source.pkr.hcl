@@ -18,10 +18,10 @@ variable "docker_image" {
 }
 
 source "docker" "ubuntu" {
-  image       = var.docker_image
-  commit      = true
-  privileged  = true
-  run_command = ["-d", "-i", "-t", "--entrypoint=/usr/sbin/init", "--", "{{.Image}}"]
+  image  = var.docker_image
+  commit = true
+  // privileged  = true
+  // run_command = ["-d", "-i", "-t", "--entrypoint=/usr/sbin/init", "--", "{{.Image}}"]
 
-  changes = ["WORKDIR /root/docker-kong/compose/", "ENV KONG_DATABASE=postgres", "CMD [\"docker-compose\", \"--profile\", \"database\", \"up\"]"]
+  changes = ["CMD ['bash', 'kong-init.sh', '${var.image_home_dir}']"]
 }

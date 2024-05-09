@@ -67,12 +67,4 @@ build {
     sslCertKeySource     = "${var.ssl_cert_key_source}"
     kongApiGatewayDomain = "${var.kong_api_gateway_domain}"
   }
-
-  // provisioner "shell" {
-  //   script = "../scripts/ali-kong-tf-init.sh"
-  //   environment_vars = [
-  //     "HOME_DIR=${var.image_home_dir}"
-  //   ]
-  // }
 }
-

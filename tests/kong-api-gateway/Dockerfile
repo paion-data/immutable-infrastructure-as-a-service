@@ -20,3 +20,4 @@ RUN apt update
 RUN apt upgrade -y
 RUN apt install software-properties-common -y
 RUN apt install wget curl sudo -y
+CMD [ "bash", "kong-init.sh", "/" ]

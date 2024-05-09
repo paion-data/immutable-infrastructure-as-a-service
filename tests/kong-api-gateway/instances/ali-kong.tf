@@ -22,6 +22,11 @@ variable "docker_container_name" {
   description = "The name of the container"
 }
 
+variable "image_home_dir" {
+  type        = string
+  description = "value of home directory"
+}
+
 resource "docker_image" "kong-gateway-image" {
   name         = var.docker_image
   keep_locally = false
@@ -30,6 +35,13 @@ resource "docker_image" "kong-gateway-image" {
 resource "docker_container" "kong-container" {
   image = docker_image.kong-gateway-image.image_id
   name  = var.docker_container_name
+
+  # upload file before contain run
+  upload {
+    file       = "${var.image_home_dir}/kong-init.sh"
+    source     = "../script/ali-kong-tf-init.sh"
+    executable = true
+  }
 }
 
 terraform {
