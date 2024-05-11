@@ -21,20 +21,22 @@ packer {
 
     iiaas = {
       source  = "github.com/paion-data/paion-data"
-      version = ">= 0.0.6"
+      version = ">= 0.0.10"
     }
   }
 }
 
 source "alicloud-ecs" "react-app" {
-  # Authentication through environmental variables
-  associate_public_ip_address  = true
+  region                       = var.ecs_image_region
   image_force_delete           = true
   image_force_delete_snapshots = true
-  image_name                   = var.ali_image_name
-  instance_type                = var.instance_type
-  internet_charge_type         = "PayByTraffic"
-  skip_image_validation        = true
-  source_image                 = "ubuntu_22_04_x64_20G_alibase_20240220.vhd"
-  ssh_username                 = "root"
+  image_name                   = var.ecs_image_name
+  instance_type                = var.build_instance_type
+  source_image                 = "ubuntu_22_04_x64_20G_alibase_20240322.vhd"
+  ssh_username                 = "root" # Alicloud REQUIRING this is just awfully terrible!!!
+  system_disk_mapping {
+    disk_category             = "cloud_essd" # Alicloud REQUIRING this is just super awfully terrible!!! （╯－＿－）╯╧╧
+    disk_delete_with_instance = true
+  }
+  associate_public_ip_address = true # Alicloud REQUIRING this is just super awfully deadly terrible!!! （╯－＿－）╯╧╧
 }

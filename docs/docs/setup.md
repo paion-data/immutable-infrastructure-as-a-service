@@ -47,8 +47,12 @@ and [Terraform integration](https://registry.terraform.io/providers/aliyun/alicl
 
 :::info
 
-The [RAM user](https://www.alibabacloud.com/product/ram) associated with the credentials above must have the required
-premission to manage the ECS on Alicloud
+The [RAM user](https://www.alibabacloud.com/product/ram) associated with the credentials above must have the following
+permissions to manage the ECS on Alicloud:
+
+- AliyunECSFullAccess
+- AliyunVPCFullAccess
+- AliyunEIPFullAccess
 
 :::
 

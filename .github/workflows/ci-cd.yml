@@ -34,19 +34,25 @@ jobs:
   yml-md-style-and-link-checks:
     uses: paion-data/github-actions-core/.github/workflows/yml-md-style-and-link-checks.yml@master
 
-  hashicorp-linting:
-    name: Packer & Terraform Files Linting
+  packer-file-linting:
+    name: Packer Files Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Validate Packer Scripts
-        run: packer fmt -check -recursive .
-      - name: Validate Terraform Scripts
-        run: terraform fmt -check -recursive .
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-packer@v3
+      - run: packer fmt -check -recursive .
+
+  terraform-file-linting:
+    name: Terraform Files Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check -recursive
 
   docker-base-images:
     name: Publish docker images for "Packer Image Build Test"
-    needs: ["yml-md-style-and-link-checks", "hashicorp-linting"]
+    needs: [yml-md-style-and-link-checks, packer-file-linting, terraform-file-linting]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
