@@ -77,3 +77,10 @@ resource "alicloud_instance" "react-instance" {
 
   user_data = data.template_file.react-init.rendered
 }
+
+resource "alicloud_dns_record" "record" {
+  name        = "paion-data.com"
+  host_record = "app"
+  type        = "A"
+  value       = alicloud_instance.react-instance.private_ip
+}
