@@ -32,7 +32,7 @@ source "alicloud-ecs" "react-app" {
   image_force_delete_snapshots = true
   image_name                   = var.ecs_image_name
   instance_type                = var.build_instance_type
-  source_image                 = "ubuntu_22_04_x64_20G_alibase_20240322.vhd"
+  source_image                 = "ubuntu_22_04_x64_20G_alibase_20240508.vhd"
   ssh_username                 = "root" # Alicloud REQUIRING this is just awfully terrible!!!
   system_disk_mapping {
     disk_category             = "cloud_essd" # Alicloud REQUIRING this is just super awfully terrible!!! （╯－＿－）╯╧╧
