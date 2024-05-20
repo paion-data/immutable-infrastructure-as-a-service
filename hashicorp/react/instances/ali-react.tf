@@ -53,6 +53,7 @@ variable "security_group_names" {
 
 data "alicloud_images" "react-images" {
   image_name  = var.ecs_image_name
+  owners      = "self"
   most_recent = true
 }
 
