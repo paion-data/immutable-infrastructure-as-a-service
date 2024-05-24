@@ -23,7 +23,14 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-provider "alicloud" {}
+provider "alicloud" {
+  region = var.ecs_instance_region
+}
+
+variable "ecs_instance_region" {
+  type        = string
+  description = "The Alicloud region (e.g. 'cn-shenzhen') where the ECS instance will be deployed to. See https://www.alibabacloud.com/help/en/ecs/product-overview/regions-and-zones for a list of valid region names"
+}
 
 variable "ecs_image_name" {
   type        = string
