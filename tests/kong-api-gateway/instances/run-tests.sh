@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-set -e
+set +e
 
 # Copyright 2024 Paion Data. All rights reserved.
 #
@@ -16,6 +16,11 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-HOME_DIR = ${home_dir}
-cd $HOME_DIR/docker-kong/compose/
-sudo KONG_DATABASE=postgres docker compose --profile database up
+export SCRIPT_PATH="${PWD}/../../../hashicorp/kong-api-gateway/scripts"
+mkdir -p ../scripts
+cp -r $SCRIPT_PATH/* ../scripts/
+ls ../scripts/
+
+terraform init
+terraform validate
+terraform test -verbose

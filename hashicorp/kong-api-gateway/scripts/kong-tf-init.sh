@@ -1,3 +1,7 @@
+#!/bin/bash
+set -x
+set -e
+
 # Copyright 2024 Paion Data. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,11 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-FROM ubuntu:22.04
 
-LABEL maintainer="Paion Data" \
-      maintainer-email="jingjinghu@paion-data.dev"
-
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y software-properties-common wget curl sudo 
+HOME_DIR=${home_dir}
+cd $HOME_DIR/docker-kong/compose/
+sudo KONG_DATABASE=postgres docker compose --profile database up

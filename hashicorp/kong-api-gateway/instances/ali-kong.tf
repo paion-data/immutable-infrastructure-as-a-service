@@ -70,12 +70,13 @@ data "alicloud_security_groups" "kong-groups" {
 }
 
 data "template_file" "kong-init" {
-  template = file("../scripts/ali-kong-tf-init.sh")
+  template = file("../scripts/kong-tf-init.sh")
   vars = {
     home_dir = var.image_home_dir
   }
 }
 
+// TODO: image_name 多版本会有问题  修改成image_id
 data "alicloud_images" "kong-images" {
   image_name = var.ali_image_name
   owners     = "self"

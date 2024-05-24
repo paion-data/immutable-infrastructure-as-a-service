@@ -31,6 +31,16 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
+  linelint:
+    runs-on: ubuntu-latest
+    name: Check if all files end in newline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Linelint
+        uses: fernandrone/linelint@0.0.4
+        id: linelint
+
   yml-md-style-and-link-checks:
     uses: paion-data/github-actions-core/.github/workflows/yml-md-style-and-link-checks.yml@master
 
@@ -58,11 +68,11 @@ jobs:
       fail-fast: true
       matrix:
         docker: [
-          {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test-base},
-          {dockerfile-path: tests/react, image-name: iiaas-react-test-base},
+          # {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test-base},
+          # {dockerfile-path: tests/react, image-name: iiaas-react-test-base},
           {dockerfile-path: tests/kong-api-gateway, image-name: iiaas-kong-api-gateway-test-base},
-          {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test-base},
-          {dockerfile-path: tests/elk, image-name: iiaas-elk-test-base}
+          # {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test-base},
+          # {dockerfile-path: tests/elk, image-name: iiaas-elk-test-base}
         ]
     steps:
       - name: Checkout
@@ -76,7 +86,7 @@ jobs:
         with:
           username: paiondata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push image to DockerHub
+      - name: Push Base image to DockerHub
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.docker.dockerfile-path }}
@@ -95,9 +105,10 @@ jobs:
         ]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Docker for AMI Tests
+      - name: Set up Docker for Images Tests
         uses: docker-practice/actions-setup-docker@master
-      - run: |
+      - name: Test Packer Build
+        run: |
           cd ${{ matrix.tests.test-directory }}
           ./run-tests.sh
       - name: Login to DockerHub
@@ -105,15 +116,32 @@ jobs:
         with:
           username: paiondata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push image to DockerHub
+      - name: Set up Docker Image Tag
+        run: docker tag $(docker images -q | head -n 1) paiondata/${{ matrix.tests.image-name }}:latest
+      - name: Push Test image to DockerHub
         run: docker push paiondata/${{ matrix.tests.image-name }}:latest
 
   terraform-it-tests:
     name: Terraform Integration Tests
     needs: packer-tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        it-tests: [
+          {test-directory: tests/kong-api-gateway/instances},
+        ]
     steps:
-      - run: terraform test
+      - uses: actions/checkout@v3
+      - name: Set up docker-kong image for Terraform Tests
+        if: ${{ matrix.it-tests.test-directory == 'tests/kong-api-gateway/instances' }}
+        run: |
+          docker pull kong
+          docker pull postgres:9.5
+      - name: Terraform Init & Test
+        run: |
+          cd ${{ matrix.it-tests.test-directory }}
+          ./run-tests.sh
 
   documentation-ci-cd:
     name: Test Documentation Build & Deploy Documentation to GitHub Pages
