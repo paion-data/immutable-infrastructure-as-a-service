@@ -29,7 +29,7 @@ provider "alicloud" {
 
 variable "ecs_instance_region" {
   type        = string
-  description = "The Alicloud region (e.g. 'cn-shenzhen') where the ECS instance will be deployed to. See https://www.alibabacloud.com/help/en/ecs/product-overview/regions-and-zones for a list of valid region names"
+  description = "The Alicloud region (e.g. 'cn-shenzhen') where the ECS instance will be published to. See https://www.alibabacloud.com/help/en/ecs/product-overview/regions-and-zones for a list of valid region names"
 }
 
 variable "ecs_image_name" {
@@ -58,6 +58,11 @@ variable "security_group_names" {
   description = "A list of security group names (yes folks, names not ID's) to associate with. An example value is [\"my security group 1\", \"my security group 2\"]"
 }
 
+variable "vswitch_id" {
+  type        = string
+  description = "The vswitch which the instance belongs. Notice: The security group and the vswitch are in the same proprietary network VPC"
+}
+
 data "alicloud_images" "react-images" {
   image_name  = var.ecs_image_name
   owners      = "self"
@@ -76,7 +81,8 @@ data "template_file" "react-init" {
 }
 
 resource "alicloud_instance" "react-instance" {
-  image_id = data.alicloud_images.react-images.images[0].id
+  image_id   = data.alicloud_images.react-images.images[0].id
+  vswitch_id = var.vswitch_id
 
   instance_type = var.instance_type
   instance_name = var.instance_name
