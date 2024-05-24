@@ -89,7 +89,8 @@ resource "alicloud_instance" "react-instance" {
 
   security_groups = data.alicloud_security_groups.react-groups.ids
 
-  user_data = data.template_file.react-init.rendered
+  user_data            = data.template_file.react-init.rendered
+  system_disk_category = "cloud_essd"
 }
 
 resource "alicloud_dns_record" "record" {
