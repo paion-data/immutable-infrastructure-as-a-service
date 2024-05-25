@@ -18,4 +18,4 @@ set -e
 
 HOME_DIR = ${home_dir}
 cd $HOME_DIR
-npx serve -s dist -l 3000
+npx serve -s dist -l 3000 &
