@@ -53,6 +53,7 @@ permissions to manage the ECS on Alicloud:
 - AliyunECSFullAccess
 - AliyunVPCFullAccess
 - AliyunEIPFullAccess
+- AliyunDNSFullAccess
 
 :::
 
