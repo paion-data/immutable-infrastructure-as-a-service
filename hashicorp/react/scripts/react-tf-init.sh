@@ -18,4 +18,6 @@ set -e
 
 HOME_DIR = ${home_dir}
 cd $HOME_DIR
+nginx -s reload
+systemctl restart nginx
 npx serve -s dist -l 3000 &
