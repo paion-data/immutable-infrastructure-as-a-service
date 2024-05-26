@@ -27,7 +27,8 @@ packer {
 }
 
 source "alicloud-ecs" "react-app" {
-  region                       = var.ecs_image_region
+  region = var.ecs_image_region
+  // The following two options do not work, require `packer build --force` to remove the image used by the instance
   image_force_delete           = true
   image_force_delete_snapshots = true
   image_name                   = var.ecs_image_name
