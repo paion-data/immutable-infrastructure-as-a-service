@@ -20,4 +20,4 @@ HOME_DIR=${home_dir}
 cd $HOME_DIR
 nginx -s reload
 systemctl restart nginx
-nohup npx serve > serve.log 2>&1 &
+nohup npx serve dist > serve.log 2>&1 &
