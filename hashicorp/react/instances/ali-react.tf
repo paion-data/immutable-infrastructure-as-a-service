@@ -100,7 +100,7 @@ data "alicloud_eip_addresses" "react-eip" {
 }
 
 resource "alicloud_eip_association" "react-eip-association" {
-  allocation_id = data.alicloud_eip_addresses.react-eip.addresses.id
+  allocation_id = data.alicloud_eip_addresses.react-eip.addresses[0].id
   instance_id   = alicloud_instance.react-instance.id
 }
 
