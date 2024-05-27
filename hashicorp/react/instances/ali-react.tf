@@ -73,6 +73,11 @@ variable "host_record" {
   description = "Host record for the domain record. This host_record can have at most 253 characters, and each part split with '.' can have at most 63 characters, and must contain only alphanumeric characters or hyphens, such as '-','.','*','@', and must not begin or end with '-'."
 }
 
+variable "eip_name" {
+  type    = string
+  default = "value"
+}
+
 data "alicloud_images" "react-images" {
   image_name  = var.ecs_image_name
   owners      = "self"
@@ -88,6 +93,15 @@ data "template_file" "react-init" {
   vars = {
     home_dir = var.instance_home_dir
   }
+}
+
+data "alicloud_eip_addresses" "react-eip" {
+  address_name = var.eip_name
+}
+
+resource "alicloud_eip_association" "react-eip-association" {
+  allocation_id = data.alicloud_eip_address.react-eip.addresses.id
+  instance_id   = alicloud_instance.react-instance.id
 }
 
 resource "alicloud_instance" "react-instance" {
@@ -107,5 +121,5 @@ resource "alicloud_dns_record" "record" {
   name        = var.domain_name
   host_record = var.host_record
   type        = "A"
-  value       = alicloud_instance.react-instance.public_ip
+  value       = data.alicloud_eip_addresses.react-eip.addresses[0].ip_address
 }
