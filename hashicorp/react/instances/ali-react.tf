@@ -63,6 +63,16 @@ variable "vswitch_id" {
   description = "The vswitch which the instance belongs. Notice: The security group and the vswitch are in the same proprietary network VPC"
 }
 
+variable "domain_name" {
+  type        = string
+  description = "Name of the domain. This name without suffix can have a string of 1 to 63 characters, must contain only alphanumeric characters or ' - ', and must not begin or end with ' - ', and ' - ' must not in the 3th and 4th character positions at the same time. Suffix .sh and .tel are not supported."
+}
+
+variable "host_record" {
+  type        = string
+  description = "Host record for the domain record. This host_record can have at most 253 characters, and each part split with '.' can have at most 63 characters, and must contain only alphanumeric characters or hyphens, such as '-','.','*','@', and must not begin or end with '-'."
+}
+
 data "alicloud_images" "react-images" {
   image_name  = var.ecs_image_name
   owners      = "self"
@@ -94,8 +104,8 @@ resource "alicloud_instance" "react-instance" {
 }
 
 resource "alicloud_dns_record" "record" {
-  name        = "paion-data.com"
-  host_record = "app"
+  name        = var.domain_name
+  host_record = var.host_record
   type        = "A"
-  value       = alicloud_instance.react-instance.private_ip
+  value       = alicloud_instance.react-instance.public_ip
 }
