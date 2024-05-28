@@ -50,6 +50,11 @@ variable "kong_api_gateway_domain" {
   default   = ""
 }
 
+variable "jwks_url" {
+  type      = string
+  sensitive = true
+}
+
 build {
   name = "install-kong"
   sources = [
@@ -61,5 +66,6 @@ build {
     sslCertSource        = "${var.ssl_cert_source}"
     sslCertKeySource     = "${var.ssl_cert_key_source}"
     kongApiGatewayDomain = "${var.kong_api_gateway_domain}"
+    jwksUrl              = "${var.jwks_url}"
   }
 }

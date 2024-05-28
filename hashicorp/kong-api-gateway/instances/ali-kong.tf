@@ -22,6 +22,11 @@ variable "image_home_dir" {
   description = "The home directory of the image"
 }
 
+variable "jwk_iss" {
+  type        = string
+  description = "The issuer of the JWK"
+}
+
 # TODO: instance_type is dependent on the region
 variable "instance_type" {
   type        = string
@@ -73,6 +78,7 @@ data "template_file" "kong-init" {
   template = file("../scripts/ali-kong-tf-init.sh")
   vars = {
     home_dir = var.image_home_dir
+    jwk_iss  = var.jwk_iss
   }
 }
 

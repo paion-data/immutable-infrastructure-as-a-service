@@ -19,3 +19,28 @@ set -e
 HOME_DIR=${home_dir}
 cd $HOME_DIR/docker-kong/compose/
 sudo KONG_DATABASE=postgres docker compose --profile database up
+
+# enable jwt plugin
+curl -X POST http://localhost:8001/plugins/ \
+   --header "accept: application/json" \
+   --header "Content-Type: application/json" \
+   --data '
+   {
+     "name": "jwt"
+   }
+   '
+# create consumer
+curl -X POST http://localhost:8001/consumers -d username=paion-consumer
+# get the public key
+PUBLIC_KEY=$(cat publicKey)
+# create jwt credential
+curl -X POST http://localhost:8001/consumers/paion-consumer/jwt \
+   --header "Content-Type: application/json" \
+   --data '
+   {
+     "algorithm": "ES384",
+     "rsa_public_key": "'"$PUBLIC_KEY"'",
+     "key": "'"${jwk_iss}"'"
+   }
+   '
+
