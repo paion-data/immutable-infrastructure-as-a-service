@@ -99,11 +99,6 @@ data "alicloud_eip_addresses" "react-eip" {
   address_name = var.eip_name
 }
 
-resource "alicloud_eip_association" "react-eip-association" {
-  allocation_id = data.alicloud_eip_addresses.react-eip.addresses[0].id
-  instance_id   = alicloud_instance.react-instance.id
-}
-
 resource "alicloud_instance" "react-instance" {
   image_id   = data.alicloud_images.react-images.images[0].id
   vswitch_id = var.vswitch_id
@@ -115,6 +110,15 @@ resource "alicloud_instance" "react-instance" {
 
   user_data            = data.template_file.react-init.rendered
   system_disk_category = "cloud_essd"
+
+  provisioner "local-exec" {
+    command = "bash ../scripts/unassociate-eip-address.sh ${data.alicloud_eip_addresses.react-eip.addresses[0].id}"
+  }
+}
+
+resource "alicloud_eip_association" "react-eip-association" {
+  allocation_id = data.alicloud_eip_addresses.react-eip.addresses[0].id
+  instance_id   = alicloud_instance.react-instance.id
 }
 
 # resource "alicloud_dns_record" "record" {
