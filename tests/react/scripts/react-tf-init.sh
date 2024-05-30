@@ -16,6 +16,6 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-packer init .
-packer validate .
-packer build .
+cd /
+npm install -g serve
+npx serve -s dist -l 3000

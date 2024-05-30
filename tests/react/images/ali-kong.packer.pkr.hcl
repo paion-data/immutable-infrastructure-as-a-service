@@ -1,7 +1,3 @@
-#!/bin/bash
-set -x
-set -e
-
 # Copyright 2024 Paion Data. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +12,16 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-packer init .
-packer validate .
-packer build .
+packer {
+  required_plugins {
+    docker = {
+      version = ">= 0.0.7"
+      source  = "github.com/hashicorp/docker"
+    }
+
+    iiaas = {
+      version = ">= 0.0.10"
+      source  = "github.com/paion-data/paion-data"
+    }
+  }
+}

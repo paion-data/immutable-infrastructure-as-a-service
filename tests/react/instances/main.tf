@@ -1,7 +1,3 @@
-#!/bin/bash
-set -x
-set -e
-
 # Copyright 2024 Paion Data. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +12,27 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-packer init .
-packer validate .
-packer build .
+provider "docker" {}
+
+resource "docker_image" "react-test-image" {
+  name         = var.docker_image
+  keep_locally = true
+}
+
+resource "docker_container" "kong-container" {
+  image   = docker_image.react-test-image.image_id
+  name    = var.docker_container_name
+  command = ["/react-tf-init.sh"]
+
+  ports {
+    internal = 3000
+    external = 3000
+  }
+
+  # upload file before contain run
+  upload {
+    file       = "/react-tf-init.sh"
+    source     = "../scripts/react-tf-init.sh"
+    executable = true
+  }
+}

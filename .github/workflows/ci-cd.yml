@@ -58,11 +58,11 @@ jobs:
       fail-fast: true
       matrix:
         docker: [
-          {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test-base},
+          # {dockerfile-path: tests/machine-learning, image-name: iiaas-machine-learning-test-base},
           {dockerfile-path: tests/react, image-name: iiaas-react-test-base},
-          {dockerfile-path: tests/kong-api-gateway, image-name: iiaas-kong-api-gateway-test-base},
-          {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test-base},
-          {dockerfile-path: tests/elk, image-name: iiaas-elk-test-base}
+          # {dockerfile-path: tests/kong-api-gateway, image-name: iiaas-kong-api-gateway-test-base},
+          # {dockerfile-path: tests/webservice, image-name: iiaas-webservice-test-base},
+          # {dockerfile-path: tests/elk, image-name: iiaas-elk-test-base}
         ]
     steps:
       - name: Checkout
@@ -91,7 +91,8 @@ jobs:
       fail-fast: false
       matrix:
         tests: [
-          {test-directory: tests/kong-api-gateway/images, image-name: iiaas-kong-api-gateway-test},
+          # {test-directory: tests/kong-api-gateway/images, image-name: iiaas-kong-api-gateway-test},
+          {test-directory: tests/react/images, image-name: iiaas-react-test},
         ]
     steps:
       - uses: actions/checkout@v3
@@ -105,6 +106,8 @@ jobs:
         with:
           username: paiondata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Image Tag
+        run: docker tag $(docker images -q | head -n 1) paiondata/${{ matrix.tests.image-name }}:latest
       - name: Push image to DockerHub
         run: docker push paiondata/${{ matrix.tests.image-name }}:latest
 
@@ -112,8 +115,25 @@ jobs:
     name: Terraform Integration Tests
     needs: packer-tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        it-tests: [
+          # {test-directory: tests/kong-api-gateway/instances},
+          {test-directory: tests/react/instances},
+        ]
     steps:
-      - run: terraform test
+      - uses: actions/checkout@v3
+      - name: Set up docker-kong image for Terraform Tests
+        if: ${{ matrix.it-tests.test-directory == 'tests/kong-api-gateway/instances' }}
+        run: |
+          docker pull kong
+          docker pull postgres:9.5
+      - name: Terraform Init & Test
+        run: |
+          cd ${{ matrix.it-tests.test-directory }}
+          terraform init
+          terraform test -verbose
 
   documentation-ci-cd:
     name: Test Documentation Build & Deploy Documentation to GitHub Pages
