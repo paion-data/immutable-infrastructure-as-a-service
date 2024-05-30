@@ -16,20 +16,6 @@ set -e
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export TEST_DIR="${PWD}"
-declare -a images=("basic" "ssl")
-
-for image in "${images[@]}"
-do
-    export PACKER_IMAGE_DIR="${PWD}/../../../hashicorp/webservice/images/aws/${image}"
-    export SCRIPT_DIR="${PWD}/../../../hashicorp/webservice/scripts"
-
-    cp -r * $PACKER_IMAGE_DIR
-
-    cd $PACKER_IMAGE_DIR
-    packer init .
-    packer validate .
-    packer build .
-
-    cd $TEST_DIR
-done
+packer init .
+packer validate .
+packer build .
