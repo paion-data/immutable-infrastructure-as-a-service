@@ -127,6 +127,60 @@ terraform validate
 terraform apply -auto-approve
 ```
 
+### Enable JWT Plugin
+
+In IIaaS, [JWT Plugin] is used to authenticate the validity of the access token int the request header. To use it, you
+need to enable it in Kong Admin API. Follow the steps below:
+
+1. Enable the plugin globally in order to be effective in all requests and configure the required configuration
+   such as `name`:
+
+```console
+curl -X POST http://localhost:8001/plugins/ \
+   --header "accept: application/json" \
+   --header "Content-Type: application/json" \
+   --data '
+   {
+      "name": "jwt"
+   }
+   '
+```
+
+2. Create a consumer. The purpose of creating a consumer is to manage credentials.
+
+```console
+curl -X POST http://localhost:8001/consumers -d username=my-consumer
+```
+
+3. Create a JWT credential for the consumer. JWT credential is important to validate token. It relies primarily on
+three parts in JWT credential:
+
+- `key`: The issuer of JWT token, which is corresponded to the iss field in the payload of JWT token after parsing.
+- `algorithm`: The algorithm used to verify the token’s signature.
+- `secret` or `rsa_public_key`: Depending on the type of algorithm, decide whether you need to set secret or
+rsa_public_key. It should be noted that: the rsa_public_key must be in REM format and the value of secret will be
+generated randomly when it is not set.
+
+```console
+curl -X POST http://localhost:8001/consumers/my-consumer/jwt \
+   --header "Content-Type: application/json" \
+   --data '
+   {
+      "algorithm": "<you_algorithm>", 
+      "rsa_public_key": "<your_public_key>",
+      "key": "<you_token_iss>"
+   }
+   '
+```
+
+After do those, all requests with a JWT token of valid signature will be proxied to upstream service.
+But if the following conditions occur in the request, it will be rejected and the response status code will be `401`:
+
+- `has no JWT`
+- `missing or invalid iss claim`
+- `invalid signature`
+- `valid signature, invalid verified claim optional`
+
 [Alicloud ECS]: https://www.alibabacloud.com/product/ecs
 [Alicloud ECS instance type]: https://www.alibabacloud.com/help/doc-detail/25378.htm
 [Alicloud region]: https://www.alibabacloud.com/help/en/cloud-migration-guide-for-beginners/latest/regions-and-zones
@@ -142,5 +196,7 @@ terraform apply -auto-approve
 [immutable-infrastructure-as-a-service/hashicorp/kong-api-gateway/instances]: https://github.com/paion-data/immutable-infrastructure-as-a-service/tree/master/hashicorp/kong-api-gateway/instances
 
 [Kong API Gateway]: https://github.com/paion-data/docker-kong
-[Kong manager UI]:https://docs.konghq.com/gateway/latest/kong-manager/
+[Kong manager UI]: https://docs.konghq.com/gateway/latest/kong-manager/
 [Kong gateway - various ports]: https://docs.konghq.com/gateway/latest/production/networking/default-ports/
+
+[JWT Plugin]: https://docs.konghq.com/hub/kong-inc/jwt/
