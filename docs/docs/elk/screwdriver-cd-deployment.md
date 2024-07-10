@@ -43,7 +43,7 @@ following the steps below:
 jobs:
   main:
     requires: [~pr, ~commit]
-    template: QubitPi/elk-release-definition-template@latest
+    template: paion-data/elk-release-definition-template@latest
 ```
 
 The following [Screwdriver Secrets][Screwdriver CD Secrets] needs to be defined before running the pipeline:

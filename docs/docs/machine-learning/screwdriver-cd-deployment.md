@@ -47,7 +47,7 @@ contents:
 jobs:
   main:
     requires: [~pr, ~commit]
-    template: QubitPi/machine-learning-model-release-definition-template-mlflow-docker@latest
+    template: paion-data/machine-learning-model-release-definition-template-mlflow-docker@latest
     steps:
       - build-ml-models: ...
     secrets:
