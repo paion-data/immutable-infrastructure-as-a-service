@@ -1,3 +1,4 @@
 file:///*
 https://ci-cd.hashicorp-aws.com/
 http.*://maven.apache.org/*
+https://ci-cd.immutable-infrastructure.com/

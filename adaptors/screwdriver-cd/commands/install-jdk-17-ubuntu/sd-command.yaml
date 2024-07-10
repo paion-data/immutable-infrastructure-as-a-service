@@ -1,9 +1,9 @@
-namespace: QubitPi
+namespace: paion-data
 name: install-jdk-17-ubuntu
 version: '1.0.0'
 description: Install JDK 17
 usage: |
-  sd-cmd exec QubitPi/install-jdk-17-ubuntu@latest
+  sd-cmd exec paion-data/install-jdk-17-ubuntu@latest
 maintainer: jack20220723@gmail.com
 format: binary
 binary:
