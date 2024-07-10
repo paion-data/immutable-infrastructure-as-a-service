@@ -21,7 +21,7 @@ packer {
 
     hashicorp-aws = {
       version = ">= 0.0.18"
-      source  = "github.com/QubitPi/hashicorp-aws"
+      source  = "github.com/paion-data/paion-data"
     }
   }
 }
