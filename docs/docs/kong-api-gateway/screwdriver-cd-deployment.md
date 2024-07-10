@@ -38,7 +38,7 @@ repo that contains a `screwdriver.yaml` file with the following content
 jobs:
   main:
     requires: [~pr, ~commit]
-    template: QubitPi/kong-api-gateway-release-definition-template@latest
+    template: paion-data/kong-api-gateway-release-definition-template@latest
 ```
 
 ### Configuring Pipeline

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: react-app-release-definition-template
 version: '1.0.0'
 description: Screwdriver CD template for deploying React APP to AWS through HashiCorp.
