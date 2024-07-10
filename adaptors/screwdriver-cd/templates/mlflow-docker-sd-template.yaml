@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: mlflow-docker-release-definition-template
 version: '1.0.0'
 description: Deploying immutable ML models as REST API to AWS through HashiCorp using MLflow Docker
@@ -20,11 +20,11 @@ maintainer: jack20220723@gmail.com
 config:
   image: buildpack-deps:22.04-scm
   steps:
-    - install-python: sd-cmd exec QubitPi/install-python-310@latest
+    - install-python: sd-cmd exec paion-data/install-python-310@latest
     - build-ml-models: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
 
-    - install-packer: sd-cmd exec QubitPi/install-hashicorp-packer-ubuntu@latest
-    - install-terraform: sd-cmd exec QubitPi/install-hashicorp-terraform-ubuntu@latest
+    - install-packer: sd-cmd exec paion-data/install-hashicorp-packer-ubuntu@latest
+    - install-terraform: sd-cmd exec paion-data/install-hashicorp-terraform-ubuntu@latest
 
     - setup-hashicorp-deployment-tool: |
         git clone --depth 1 https://github.com/QubitPi/hashicorp-aws.git ../hashicorp-aws

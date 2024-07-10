@@ -1,9 +1,9 @@
-namespace: QubitPi
+namespace: paion-data
 name: install-python-310
 version: '1.0.0'
 description: Install Python 3.10
 usage: |
-  sd-cmd exec QubitPi/install-python-310@latest
+  sd-cmd exec paion-data/install-python-310@latest
 maintainer: jack20220723@gmail.com
 format: binary
 binary:

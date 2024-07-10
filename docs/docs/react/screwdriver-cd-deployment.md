@@ -53,7 +53,7 @@ Here is an example:
 jobs:
   main:
     requires: [~pr, ~commit]
-    template: QubitPi/react-app-release-definition-template@latest
+    template: paion-data/react-app-release-definition-template@latest
     secrets:
       - AWS_REACT_PKRVARS_HCL
       - SSL_CERTIFICATE
