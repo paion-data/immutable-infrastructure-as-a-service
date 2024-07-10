@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: jersey-webservice-jpa-release-definition-template
 version: '1.0.0'
 description: |
@@ -20,7 +20,7 @@ description: |
   This template deploys the jpa-elide branch without SSL/HTTPS or any other addons
 maintainer: jack20220723@gmail.com
 config:
-  template: QubitPi/jersey-webservice-basic-release-definition-template
+  template: paion-data/jersey-webservice-basic-release-definition-template
   order: [
     install-packer,
     install-terraform,

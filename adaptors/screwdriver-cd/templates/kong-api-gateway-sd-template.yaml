@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: kong-api-gateway-release-definition-template
 version: '1.0.0'
 description: |
@@ -58,8 +58,8 @@ config:
       value: "9DQXLTNSN7ZX9P8V2KZII"
       description: 'The AWS Route 53 hosted Zone ID that hosts the domain defined by "kong-api-gateway-domain"'
   steps:
-    - install-packer: sd-cmd exec QubitPi/install-hashicorp-packer-ubuntu@latest
-    - install-terraform: sd-cmd exec QubitPi/install-hashicorp-terraform-ubuntu@latest
+    - install-packer: sd-cmd exec paion-data/install-hashicorp-packer-ubuntu@latest
+    - install-terraform: sd-cmd exec paion-data/install-hashicorp-terraform-ubuntu@latest
     - checkout-hashicorp-deployment-tool: git clone --depth 1 https://github.com/QubitPi/hashicorp-aws.git ../hashicorp-aws
 
     - load-packer-variable-file: |

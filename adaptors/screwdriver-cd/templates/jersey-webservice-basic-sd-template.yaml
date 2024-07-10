@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: jersey-webservice-basic-release-definition-template
 version: '1.0.0'
 description: |
@@ -20,7 +20,7 @@ description: |
   This template deploys the webservices without SSL/HTTPS or any other addons
 maintainer: jack20220723@gmail.com
 config:
-  template: QubitPi/hashicorp-aws-base-release-definition-template
+  template: paion-data/hashicorp-aws-base-release-definition-template
   order: [
     install-packer,
     install-terraform,
@@ -47,8 +47,8 @@ config:
       value: ["myelk.instance.com:8080"]
       description: "The list of Logstash hosts with ports to receive webservice log data"
   steps:
-    - install-jdk: sd-cmd exec QubitPi/install-jdk-17-ubuntu@latest
-    - install-maven: sd-cmd exec QubitPi/install-maven-ubuntu@latest
+    - install-jdk: sd-cmd exec paion-data/install-jdk-17-ubuntu@latest
+    - install-maven: sd-cmd exec paion-data/install-maven-ubuntu@latest
 
     - load-war-file-path: echo ws_war_path = \"ROOT.war\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
 
