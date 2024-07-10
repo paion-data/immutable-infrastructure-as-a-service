@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-namespace: QubitPi
+namespace: paion-data
 name: hashicorp-aws-base-release-definition-template
 version: '1.0.0'
 description: |
@@ -48,8 +48,8 @@ config:
       value: '["My Security Group A", "My Security Group B", "My Security Group C"]'
       description: "The list of AWS Security Group names (yes, not ID, but name...) to associate with the EC2 instance."
   steps:
-    - install-packer: sd-cmd exec QubitPi/install-hashicorp-packer-ubuntu@latest
-    - install-terraform: sd-cmd exec QubitPi/install-hashicorp-terraform-ubuntu@latest
+    - install-packer: sd-cmd exec paion-data/install-hashicorp-packer-ubuntu@latest
+    - install-terraform: sd-cmd exec paion-data/install-hashicorp-terraform-ubuntu@latest
     - setup-hashicorp-deployment-tool: |
         git clone --depth 1 https://github.com/QubitPi/hashicorp-aws.git    ../hashicorp-aws
         cp ../hashicorp-aws/hashicorp/common/images/aws/*                   ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws
