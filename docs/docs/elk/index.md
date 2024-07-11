@@ -257,7 +257,7 @@ a minute.
 [hashicorp-aws]: https://hashicorp-aws.com/
 [hashicorp-aws/hashicorp/elk/images]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/elk/images
 [hashicorp-aws/hashicorp/elk/instances]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/elk/instances
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Screwdriver CD]: https://qubitpi.github.io/screwdriver-cd-homepage/

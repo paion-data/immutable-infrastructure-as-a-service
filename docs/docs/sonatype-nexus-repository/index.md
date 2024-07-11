@@ -143,10 +143,10 @@ software artifactory in a minute.
 
 [hashicorp-aws/hashicorp/sonatype-nexus-repository/images/aws]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/sonatype-nexus-repository/images/aws
 [hashicorp-aws/hashicorp/sonatype-nexus-repository/instances/aws]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/sonatype-nexus-repository/instances/aws
-[HashiCorp Packer - Install]: https://packer.qubitpi.org/packer/install
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform - Install]: https://terraform.qubitpi.org/terraform/install
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer - Install]: https://developer.hashicorp.com/packer/install
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform - Install]: https://developer.hashicorp.com/terraform/install
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Sonatype Nexus Repository]: https://github.com/QubitPi/docker-nexus3
 [Sonatype Nexus Repository default HTTP port]: https://help.sonatype.com/en/network-configuration.html#network-configuration-in-nexus-repository-2

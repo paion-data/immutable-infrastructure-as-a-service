@@ -121,9 +121,9 @@ hashicorp-aws supports deployment using [Screwdriver CD](screwdriver-cd-deployme
 [ESLint]: https://eslint.org/
 
 [hashicorp-aws]: https://hashicorp-aws.com/
-[HashiCorp Packer delete_on_termination]: https://packer.qubitpi.org/packer/integrations/hashicorp/amazon/latest/components/builder/ebs#:~:text=Optional%3A-,delete_on_termination,-(bool)%20%2D%20Indicates%20whether
-[HashiCorp Packer variable file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform variable file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer delete_on_termination]: https://developer.hashicorp.com/packer/integrations/hashicorp/amazon/latest/components/builder/ebs#:~:text=Optional%3A-,delete_on_termination,-(bool)%20%2D%20Indicates%20whether
+[HashiCorp Packer variable file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform variable file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Jest]: https://qubitpi.github.io/jest/
 

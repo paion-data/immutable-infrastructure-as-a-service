@@ -102,8 +102,8 @@ The following [Screwdriver Secrets][Screwdriver CD Secrets] needs to be defined 
 [AWS regions]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.Availability
 [AWS Security Group]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html
 
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Immutable Infrastructure]: https://www.hashicorp.com/resources/what-is-mutable-vs-immutable-infrastructure
 

@@ -232,5 +232,5 @@ In the case of AWS, we will need to sign in to our AWS account, and then open th
 
 [hashicorp-aws/hashicorp/docker-mailserver/images]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/docker-mailserver/images
 [hashicorp-aws/hashicorp/docker-mailserver/instances]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/docker-mailserver/instances
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files

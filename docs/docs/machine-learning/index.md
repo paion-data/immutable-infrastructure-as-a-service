@@ -98,7 +98,7 @@ ml_models_path = "/abs/path/to/mlflow_models/"
 
   :::caution
 
-  [The path must not end with a `/`](https://packer.qubitpi.org/packer/docs/provisioners/file#directory-uploads). For
+  [The path must not end with a `/`](https://developer.hashicorp.com/packer/docs/provisioners/file#directory-uploads). For
   example, it's OK with `ml_models_path = "/home/ubuntu/mymodel"`, but `ml_models_path = "/home/ubuntu/mymodel/"` is not
 
   :::
@@ -201,10 +201,10 @@ stand up the API in a minute.
 
 [hashicorp-aws/hashicorp/machine-learning/images/mlflow-docker]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/machine-learning/images/mlflow-docker
 [hashicorp-aws/hashicorp/machine-learning/instances/mlflow-docker]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/machine-learning/instances/mlflow-docker
-[HashiCorp Packer - Install]: https://packer.qubitpi.org/packer/install
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform - Install]: https://terraform.qubitpi.org/terraform/install
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer - Install]: https://developer.hashicorp.com/packer/install
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform - Install]: https://developer.hashicorp.com/terraform/install
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Machine Learning model release definition template]: https://github.com/QubitPi/machine-learning-model-release-definition-templates
 [MLflow - Running Machine Learning Model NOT Managed by MLflow as REST API in Docker Container]: https://qubitpi.github.io/mlflow/getting-started/quickstart-2/index.html#running-machine-learning-model-not-managed-by-mlflow-as-rest-api-in-docker-container

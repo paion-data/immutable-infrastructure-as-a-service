@@ -184,10 +184,10 @@ gateway in a minute.
 
 [hashicorp-aws/hashicorp/kong-api-gateway/images]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/kong-api-gateway/images
 [hashicorp-aws/hashicorp/kong-api-gateway/instances]: https://github.com/QubitPi/hashicorp-aws/tree/master/hashicorp/kong-api-gateway/instances
-[HashiCorp Packer - Install]: https://packer.qubitpi.org/packer/install
-[HashiCorp Packer variable values file]: https://packer.qubitpi.org/packer/guides/hcl/variables#from-a-file
-[HashiCorp Terraform - Install]: https://terraform.qubitpi.org/terraform/install
-[HashiCorp Terraform variable values file]: https://terraform.qubitpi.org/terraform/language/values/variables#variable-definitions-tfvars-files
+[HashiCorp Packer - Install]: https://developer.hashicorp.com/packer/install
+[HashiCorp Packer variable values file]: https://developer.hashicorp.com/packer/guides/hcl/variables#from-a-file
+[HashiCorp Terraform - Install]: https://developer.hashicorp.com/terraform/install
+[HashiCorp Terraform variable values file]: https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files
 
 [Kong API Gateway]: https://qubitpi.github.io/docs.konghq.com/gateway/latest/
 [Kong manager UI]: https://qubitpi.github.io/docs.konghq.com/gateway/latest/kong-manager/
