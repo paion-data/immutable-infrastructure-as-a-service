@@ -90,35 +90,35 @@ jobs:
     environment:
       SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/kong-api-gateway-sd-template.yaml
 
-  validate-jersey-webservice-basic-sd-template:
+  validate-spring-webservice-basic-sd-template:
     requires: [~pr, ~commit]
     steps:
       - install: npm install -g screwdriver-template-main
       - validate: template-validate
     environment:
-      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-basic-sd-template.yaml
-  publish-jersey-webservice-basic-sd-template:
-    requires: [validate-jersey-webservice-basic-sd-template, publish-hashicorp-aws-base-sd-template]
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/spring-webservice-basic-sd-template.yaml
+  publish-spring-webservice-basic-sd-template:
+    requires: [validate-spring-webservice-basic-sd-template, publish-hashicorp-aws-base-sd-template]
     steps:
       - install: npm install -g screwdriver-template-main
       - publish: template-publish --tag latest
     environment:
-      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-basic-sd-template.yaml
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/spring-webservice-basic-sd-template.yaml
 
-  validate-jersey-webservice-jpa-sd-template:
+  validate-astraios-sd-template:
     requires: [~pr, ~commit]
     steps:
       - install: npm install -g screwdriver-template-main
       - validate: template-validate
     environment:
-      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-jpa-sd-template.yaml
-  publish-jersey-webservice-jpa-sd-template:
-    requires: [validate-jersey-webservice-jpa-sd-template, publish-jersey-webservice-basic-sd-template]
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/astraios-sd-template.yaml
+  publish-astraios-sd-template:
+    requires: [validate-astraios-sd-template, publish-spring-webservice-basic-sd-template]
     steps:
       - install: npm install -g screwdriver-template-main
       - publish: template-publish --tag latest
     environment:
-      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/jersey-webservice-jpa-sd-template.yaml
+      SD_TEMPLATE_PATH: adaptors/screwdriver-cd/templates/astraios-sd-template.yaml
 
   validate-elk-template:
     requires: [~pr, ~commit]
