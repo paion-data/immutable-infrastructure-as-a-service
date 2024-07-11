@@ -55,8 +55,8 @@ config:
         exit 1
     - relocate-dist-for-hashicorp: mv dist ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/
     - load-react-app-ssl-configs: |
-        echo react_app_domain    = \"$(meta get parameters.domain.value)\"              >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
-        echo ssl_cert_base64     = \"$(meta get parameters.ssl-cert-base64.value)\"     >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
-        echo ssl_cert_key_base64 = \"$(meta get parameters.ssl-cert-key-base64.value)\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+        echo react_app_domain    = \"$(meta get parameters.domain.value)\"              >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+        echo ssl_cert_base64     = \"$(meta get parameters.ssl-cert-base64.value)\"     >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+        echo ssl_cert_key_base64 = \"$(meta get parameters.ssl-cert-key-base64.value)\" >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
   environment:
     INFRASTRUCTURE: react
