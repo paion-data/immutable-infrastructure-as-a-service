@@ -13,10 +13,10 @@
 # limitations under the License.
 ---
 namespace: paion-data
-name: jersey-webservice-basic-release-definition-template
+name: spring-webservice-basic-release-definition-template
 version: '1.0.0'
 description: |
-  Screwdriver CD template for deploying instantiated Jersey webservice to AWS through HashiCorp.
+  Screwdriver CD template for deploying instantiated Spring Boot webservice to AWS through HashiCorp.
   This template deploys the webservices without SSL/HTTPS or any other addons
 maintainer: jack20220723@gmail.com
 config:
@@ -26,14 +26,14 @@ config:
     install-terraform,
     setup-hashicorp-deployment-tool,
     load-packer-ami-variables,
-    load-war-file-path,
+    load-jar-file-path,
     load-terraform-ec2-variables,
 
     install-jdk,
     install-maven,
     download-webservice-source-code,
     generate-war,
-    relocate-war-for-hashicorp,
+    relocate-jar-for-hashicorp,
 
     packer-init,
     packer-validate,
@@ -43,6 +43,12 @@ config:
     terraform-apply
   ]
   parameters:
+    webservice-repo:
+      value: "git@github.com:paion-data/astraios.git"
+      description: "The git URL of the webservice to be deployed. It will be used by 'git clone' command"
+    webservice-jar-file-name:
+      value: "my-webservice-1.0.jar"
+      description: "The JAR file name of the webservice to be deployed. It should be located under 'target/' directory"
     elk-hosts:
       value: ["myelk.instance.com:8080"]
       description: "The list of Logstash hosts with ports to receive webservice log data"
@@ -50,7 +56,7 @@ config:
     - install-jdk: sd-cmd exec paion-data/install-jdk-17-ubuntu@latest
     - install-maven: sd-cmd exec paion-data/install-maven-ubuntu@latest
 
-    - load-war-file-path: echo war_source = \"ROOT.war\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+    - load-jar-file-path: echo jar_source = \"webservice.jar\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
 
     - load-filebeat-file: |
         echo ws_filebeat_config_file_path = \"filebeat.yml\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
@@ -70,8 +76,8 @@ config:
         EOF
 
     - download-webservice-source-code: |
-        git clone https://github.com/QubitPi/jersey-webservice-template.git ../jersey-webservice-template
-        cd ../jersey-webservice-template
+        git clone $(meta get parameters.webservice-repo.value) ../webservice
+        cd ../webservice
 
     - generate-war: |
         if [ ! -f settings.xml ]; then
@@ -80,8 +86,7 @@ config:
           mvn -B clean package --settings settings.xml -Dcheckstyle.skip -Dmaven.test.skip
         fi
 
-    - relocate-war-for-hashicorp: |
-        mv target/*.war ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/ROOT.war
+    - relocate-jar-for-hashicorp: mv target/$(meta get parameters.webservice-jar-file-name.value) ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/webservice.jar
   environment:
     INFRASTRUCTURE: webservice
   secrets:

@@ -12,17 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "war_source" {
+variable "jar_source" {
   type      = string
   sensitive = true
 }
 
 build {
   sources = [
-    "source.amazon-ebs.hashicorp-aws"
+    "source.amazon-ebs.iiaas"
   ]
 
-  provisioner "hashicorp-aws-webservice-provisioner" {
-    warSource = "${var.war_source}"
+  provisioner "paion-data-webservice-provisioner" {
+    jarSource = "${var.jar_source}"
   }
 }
