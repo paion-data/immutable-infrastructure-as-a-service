@@ -53,7 +53,7 @@ config:
         echo "The end result of this step must be a 'dist' file at the check-out root"
         echo "An example implementation should be 'yarn && yarn build'"
         exit 1
-    - relocate-dist-for-hashicorp: mv dist ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/
+    - relocate-dist-for-hashicorp: mv dist ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/
     - load-react-app-ssl-configs: |
         echo react_app_domain    = \"$(meta get parameters.domain.value)\"              >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
         echo ssl_cert_base64     = \"$(meta get parameters.ssl-cert-base64.value)\"     >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
