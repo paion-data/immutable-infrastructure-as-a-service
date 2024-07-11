@@ -35,10 +35,10 @@ variable "dist_source" {
 
 build {
   sources = [
-    "source.amazon-ebs.hashicorp-aws"
+    "source.amazon-ebs.iiaas"
   ]
 
-  provisioner "hashicorp-aws-react-provisioner" {
+  provisioner "paion-data-react-provisioner" {
     distSource       = "./dist"
     homeDir          = "/home/ubuntu"
     sslCertBase64    = "${var.ssl_cert_base64}"
