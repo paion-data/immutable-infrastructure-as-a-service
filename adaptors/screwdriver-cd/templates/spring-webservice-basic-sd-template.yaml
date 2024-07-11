@@ -56,12 +56,12 @@ config:
     - install-jdk: sd-cmd exec paion-data/install-jdk-17-ubuntu@latest
     - install-maven: sd-cmd exec paion-data/install-maven-ubuntu@latest
 
-    - load-jar-file-path: echo jar_source = \"webservice.jar\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+    - load-jar-file-path: echo jar_source = \"webservice.jar\" >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
 
     - load-filebeat-file: |
-        echo filebeat_path = \"filebeat.yml\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
+        echo filebeat_path = \"filebeat.yml\" >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/aws.auto.pkrvars.hcl
 
-        cat  << EOF >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/filebeat.yml
+        cat  << EOF >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/filebeat.yml
         filebeat.config.modules:
           path: ${path.config}/modules.d/*.yml
           reload.enabled: false
@@ -86,7 +86,7 @@ config:
           mvn -B clean package --settings settings.xml -Dcheckstyle.skip -Dmaven.test.skip
         fi
 
-    - relocate-jar-for-hashicorp: mv target/$(meta get parameters.webservice-jar-file-name.value) ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/images/aws/webservice.jar
+    - relocate-jar-for-hashicorp: mv target/$(meta get parameters.webservice-jar-file-name.value) ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/images/aws/webservice.jar
   environment:
     INFRASTRUCTURE: webservice
   secrets:
