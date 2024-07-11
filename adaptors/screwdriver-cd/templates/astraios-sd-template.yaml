@@ -13,31 +13,29 @@
 # limitations under the License.
 ---
 namespace: paion-data
-name: jersey-webservice-jpa-release-definition-template
+name: astraios-release-definition-template
 version: '1.0.0'
 description: |
-  Screwdriver CD template for deploying instantiated Jersey webservice to AWS through HashiCorp.
-  This template deploys the jpa-elide branch without SSL/HTTPS or any other addons
+  Screwdriver CD template for deploying astraios.io webservice to AWS through HashiCorp.
 maintainer: jack20220723@gmail.com
 config:
-  template: paion-data/jersey-webservice-basic-release-definition-template
+  template: paion-data/spring-webservice-basic-release-definition-template
   order: [
     install-packer,
     install-terraform,
     setup-hashicorp-deployment-tool,
     load-packer-ami-variables,
-    load-war-file-path,
+    load-jar-file-path,
     load-terraform-ec2-variables,
 
     install-jdk,
     install-maven,
     download-webservice-source-code,
-    switch-branch,
     load-application-properties-file,
     load-jpadatastore-properties-file,
     load-maven-settings-xml,
     generate-war,
-    relocate-war-for-hashicorp,
+    relocate-jar-for-hashicorp,
 
     packer-init,
     packer-validate,
@@ -48,27 +46,26 @@ config:
   ]
   parameters:
     data-models-group-id:
-      value: "io.github.qubitpi"
+      value: "com.paiondata"
       description: |
         The group ID of the JPA data models.
-        See https://github.com/QubitPi/jersey-webservice-template-jpa-data-models for example
+        See https://github.com/paion-data/astraios-data-models-example for example
     data-models-artifact-id:
-      value: "jersey-webservice-template-jpa-data-models"
+      value: "astraios-data-models-example"
       description: |
         The artifact ID of the JPA data models.
-        See https://github.com/QubitPi/jersey-webservice-template-jpa-data-models for example
+        See https://github.com/paion-data/astraios-data-models-example for example
     data-models-version:
-      value: "1.0.1"
+      value: "1.0.0"
       description: |
         The semantic version of the JPA data models.
-        See https://github.com/QubitPi/jersey-webservice-template-jpa-data-models for example
+        See https://github.com/paion-data/astraios-data-models-example for example
     model-package-name:
-      value: "io.github.qubitpi.ws.jersey.template.models"
+      value: "com.paiondata.astraios.data.models"
       description: |
         The fully qualified package name of the JPA data model classes
-        See https://github.com/QubitPi/jersey-webservice-template-jpa-data-models for example
+        See https://github.com/paion-data/astraios-data-models-example for example
   steps:
-    - switch-branch: git checkout jpa-elide
     - load-application-properties-file: |
         echo MODEL_PACKAGE_NAME=$(meta get parameters.model-package-name.value) >> src/main/resources/application.properties
     - load-jpadatastore-properties-file: |
@@ -93,7 +90,7 @@ config:
 
             <profiles>
                 <profile>
-                    <id>jersey-webservice-template-jpa-data-models</id>
+                    <id>astraios-data-models</id>
                     <properties>
                         <model.package.jar.group.id>$GROUP_ID</model.package.jar.group.id>
                         <model.package.jar.artifact.id>$ARTIFACT_ID</model.package.jar.artifact.id>
@@ -101,7 +98,7 @@ config:
                     </properties>
                     <repositories>
                         <repository>
-                            <id>jersey-webservice-template-jpa-data-models</id>
+                            <id>astraios-data-models</id>
                             <name>Jersey Webservice Template JPA Data Models Repository</name>
                             <url>${DATA_MODELS_REPO_URL}</url>
                         </repository>
@@ -111,14 +108,14 @@ config:
 
             <servers>
                 <server>
-                    <id>jersey-webservice-template-jpa-data-models</id>
+                    <id>astraios-data-models</id>
                     <username>${SERVER_USERNAME}</username>
                     <password>${SERVER_PASSWORD}</password>
                 </server>
             </servers>
 
             <activeProfiles>
-                <activeProfile>jersey-webservice-template-jpa-data-models</activeProfile>
+                <activeProfile>astraios-data-models</activeProfile>
             </activeProfiles>
         </settings>
         EOF
