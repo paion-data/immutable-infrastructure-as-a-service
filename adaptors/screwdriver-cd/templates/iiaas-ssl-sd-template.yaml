@@ -13,7 +13,7 @@
 # limitations under the License.
 ---
 namespace: paion-data
-name: hashicorp-aws-ssl-release-definition-template
+name: iiaas-ssl-release-definition-template
 version: '1.0.0'
 description: |
   Screwdriver CD template for deploying an immutable SSL-protected service to AWS through HashiCorp.
@@ -21,7 +21,7 @@ description: |
   EC2 instance accessible by a SSL domain
 maintainer: jack20220723@gmail.com
 config:
-  template: paion-data/hashicorp-aws-base-release-definition-template
+  template: paion-data/iiaas-base-release-definition-template
   order: [
     install-packer,
     install-terraform,
