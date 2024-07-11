@@ -32,7 +32,7 @@ config:
     install-jdk,
     install-maven,
     download-webservice-source-code,
-    generate-war,
+    generate-jar,
     relocate-jar-for-hashicorp,
 
     packer-init,
@@ -79,7 +79,7 @@ config:
         git clone $(meta get parameters.webservice-repo.value) ../webservice
         cd ../webservice
 
-    - generate-war: |
+    - generate-jar: |
         if [ ! -f settings.xml ]; then
           mvn -B clean package -Dcheckstyle.skip -Dmaven.test.skip
         else

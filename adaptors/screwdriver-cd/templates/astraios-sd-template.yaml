@@ -34,7 +34,7 @@ config:
     load-application-properties-file,
     load-jpadatastore-properties-file,
     load-maven-settings-xml,
-    generate-war,
+    generate-jar,
     relocate-jar-for-hashicorp,
 
     packer-init,
