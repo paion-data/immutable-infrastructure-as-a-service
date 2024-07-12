@@ -20,7 +20,7 @@ packer {
     }
 
     paion-data = {
-      version = ">= 1.0.3"
+      version = ">= 1.0.5"
       source  = "github.com/paion-data/paion-data"
     }
   }
