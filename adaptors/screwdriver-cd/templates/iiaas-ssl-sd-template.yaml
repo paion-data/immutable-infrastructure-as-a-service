@@ -48,8 +48,8 @@ config:
     - setup-hashicorp-ssl-configs: |
         cp ../immutable-infrastructure-as-a-service/hashicorp/common/instances/aws/aws-ssl.tf ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/instances/aws
     - load-terraform-ssl-variables: |
-        echo domain           = \"$(meta get parameters.domain.value)\"           >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/instances/aws/aws.auto.tfvars
-        echo route_53_zone_id = \"$(meta get parameters.route-53-zone-id.value)\" >> ../hashicorp-aws/hashicorp/$INFRASTRUCTURE/instances/aws/aws.auto.tfvars
+        echo domain           = \"$(meta get parameters.domain.value)\"           >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/instances/aws/aws.auto.tfvars
+        echo route_53_zone_id = \"$(meta get parameters.route-53-zone-id.value)\" >> ../immutable-infrastructure-as-a-service/hashicorp/$INFRASTRUCTURE/instances/aws/aws.auto.tfvars
   secrets:
     - SSL_CERT_BASE_64
     - SSL_CERT_KEY_BASE_64

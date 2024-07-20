@@ -20,7 +20,7 @@ description: |
   HashiCorp.
 maintainer: jack20220723@gmail.com
 config:
-  template: paion-data/hashicorp-aws-ssl-release-definition-template
+  template: paion-data/iiaas-ssl-release-definition-template
   order: [
     install-packer,
     install-terraform,
